@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions Générales de Vente — MANAYAN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --sage: #556b2f;
+            --moss: #73956f;
+            --cream: #fef9f3;
+            --sand: #f4ede4;
+            --gold: #c9a961;
+            --terracotta: #d4a574;
+            --shadow-soft: rgba(26, 58, 46, 0.08);
+            --shadow-hard: rgba(26, 58, 46, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--forest);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(254, 249, 243, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(26, 58, 46, 0.1);
+            box-shadow: 0 2px 20px var(--shadow-soft);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: var(--forest);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--forest);
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sage);
+            transition: width 0.4s;
+        }
+
+        .nav-links a:hover {
+            color: var(--sage);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            background: var(--sand);
+            padding: 8px 14px;
+            border-radius: 25px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--sage);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--sage);
+            color: white;
+        }
+
+        .cart-btn {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--terracotta);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
+            padding: 80px 8% 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--forest);
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--sage);
+        }
+
+        /* CGV CONTENT */
+        .cgv-content {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 8%;
+        }
+
+        .cgv-section {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px var(--shadow-soft);
+        }
+
+        .cgv-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            margin-bottom: 30px;
+            color: var(--forest);
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--sand);
+        }
+
+        .cgv-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            color: var(--sage);
+        }
+
+        .cgv-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--sage);
+            margin-bottom: 20px;
+        }
+
+        .cgv-section ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .cgv-section li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--sage);
+            margin-bottom: 12px;
+        }
+
+        .cgv-section strong {
+            color: var(--forest);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: var(--sand);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid var(--gold);
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--moss), var(--gold));
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .highlight p {
+            color: white;
+        }
+
+        .highlight ul {
+            color: white;
+        }
+
+        .highlight li {
+            color: white;
+        }
+
+        .important-notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .important-notice p {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: var(--forest);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--sand);
+            font-size: 15px;
+            color: var(--sage);
+        }
+
+        tr:hover {
+            background: var(--cream);
+        }
+
+        .last-update {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--sand);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--forest);
+            color: white;
+            padding: 80px 8% 40px;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .footer-brand p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--moss);
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--moss);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(115, 149, 111, 0.3);
+            color: var(--moss);
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cgv-section {
+                padding: 35px 25px;
+            }
+        }
+
+        /* Language Toggle */
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MANAYAN</a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="lang-fr">Accueil</a><a href="index.html" class="lang-en" style="display:none;">Home</a></li>
+            <li><a href="boutique.html" class="lang-fr">Boutique</a><a href="boutique.html" class="lang-en" style="display:none;">Shop</a></li>
+            <li><a href="propos.html" class="lang-fr">À propos</a><a href="propos.html" class="lang-en" style="display:none;">About</a></li>
+            <li><a href="contact.html" class="lang-fr">Contact</a><a href="contact.html" class="lang-en" style="display:none;">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="changeLang('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="changeLang('en')" data-lang="en">EN</button>
+            </div>
+            <a href="panier.html" class="cart-btn">
+                🛒
+                <span class="cart-badge" id="cart-count">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER FR -->
+    <header class="page-header lang-content lang-fr active">
+        <h1>Conditions Générales de Vente</h1>
+        <p>Conditions applicables à toutes vos commandes sur MANAYAN</p>
+    </header>
+
+    <!-- PAGE HEADER EN -->
+    <header class="page-header lang-content lang-en">
+        <h1>Terms and Conditions of Sale</h1>
+        <p>Terms applicable to all your orders on MANAYAN</p>
+    </header>
+
+    <!-- CGV CONTENT FR -->
+    <section class="cgv-content lang-content lang-fr active">
+        
+        <!-- Introduction -->
+        <div class="cgv-section">
+            <h2>Informations générales</h2>
+            
+            <p>Les présentes Conditions Générales de Vente (CGV) régissent toutes les commandes passées sur le site web <strong>MANAYAN</strong>. En passant commande, vous acceptez sans réserve les présentes CGV.</p>
+
+            <div class="info-box">
+                <p><strong>Vendeur :</strong> MANAYAN SARL</p>
+                <p><strong>Siège social :</strong> 15 Rue de la Beauté, 75008 Paris, France</p>
+                <p><strong>SIRET :</strong> 123 456 789 00012</p>
+                <p><strong>TVA :</strong> FR 12 123456789</p>
+                <p><strong>Email :</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Téléphone :</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+            </div>
+
+            <p><strong>Date d'entrée en vigueur :</strong> 3 février 2026</p>
+        </div>
+
+        <!-- Produits -->
+        <div class="cgv-section">
+            <h2>1. Présentation des produits</h2>
+            
+            <h3>1.1. Description</h3>
+            <p>Les produits proposés à la vente sont ceux qui figurent sur le site <strong>MANAYAN</strong> au moment de la consultation. Chaque produit est accompagné d'une description détaillant ses principales caractéristiques.</p>
+
+            <h3>1.2. Disponibilité</h3>
+            <p>Nos offres de produits et prix sont valables tant qu'ils sont visibles sur le site, dans la limite des stocks disponibles. En cas d'indisponibilité d'un produit après passation de votre commande, nous vous en informerons dans les plus brefs délais et vous proposerons :</p>
+            <ul>
+                <li>Un produit de remplacement de qualité et de prix équivalent</li>
+                <li>Le remboursement intégral des sommes versées</li>
+                <li>L'annulation de votre commande</li>
+            </ul>
+
+            <h3>1.3. Photos et illustrations</h3>
+            <p>Les photographies des produits ne sont pas contractuelles. Nous nous efforçons de présenter nos produits de la manière la plus fidèle possible, mais des variations de couleur peuvent apparaître selon les écrans.</p>
+
+            <div class="highlight">
+                <h3>🌿 Nos gammes de produits</h3>
+                <ul>
+                    <li><strong>Cure Pousse :</strong> Compléments alimentaires pour stimuler la croissance capillaire</li>
+                    <li><strong>Hair Tea Elixir :</strong> Infusions botaniques aux 12 plantes actives</li>
+                    <li><strong>Rituel Complet :</strong> Packs combinés pour des résultats optimaux</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Commandes -->
+        <div class="cgv-section">
+            <h2>2. Commande et validation</h2>
+            
+            <h3>2.1. Processus de commande</h3>
+            <p>Pour passer commande, vous devez :</p>
+            <ol style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Sélectionner les produits souhaités et les ajouter au panier</li>
+                <li>Vérifier le contenu de votre panier</li>
+                <li>Renseigner vos informations de livraison et de facturation</li>
+                <li>Choisir votre mode de livraison</li>
+                <li>Sélectionner votre mode de paiement</li>
+                <li>Valider votre commande après avoir lu et accepté les présentes CGV</li>
+            </ol>
+
+            <h3>2.2. Confirmation de commande</h3>
+            <p>Une fois votre commande validée et le paiement effectué, vous recevrez un email de confirmation contenant :</p>
+            <ul>
+                <li>Le numéro de votre commande</li>
+                <li>Le récapitulatif des produits commandés</li>
+                <li>Le montant total TTC</li>
+                <li>L'adresse de livraison</li>
+                <li>Le délai de livraison estimé</li>
+            </ul>
+
+            <h3>2.3. Modification ou annulation</h3>
+            <p>Vous pouvez modifier ou annuler votre commande dans un délai de <strong>2 heures</strong> après sa validation en nous contactant à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a>.</p>
+
+            <p>Passé ce délai, votre commande entre en phase de préparation et ne peut plus être modifiée ou annulée (sauf exercice du droit de rétractation - voir section 7).</p>
+        </div>
+
+        <!-- Prix et paiement -->
+        <div class="cgv-section">
+            <h2>3. Prix et paiement</h2>
+            
+            <h3>3.1. Prix</h3>
+            <p>Les prix de nos produits sont indiqués en <strong>euros (€)</strong> toutes taxes comprises (TTC), hors frais de livraison.</p>
+
+            <p>MANAYAN se réserve le droit de modifier ses prix à tout moment. Les produits seront facturés au prix en vigueur au moment de la validation de la commande.</p>
+
+            <div class="highlight">
+                <h3>💰 Tarifs actuels</h3>
+                <ul>
+                    <li><strong>Cure Pousse :</strong> 29€ (prix promotionnel, au lieu de 87€)</li>
+                    <li><strong>Hair Tea Elixir :</strong> 39€</li>
+                    <li><strong>Rituel Complet :</strong> 89€</li>
+                </ul>
+            </div>
+
+            <h3>3.2. Frais de livraison</h3>
+            <p>Les frais de livraison sont calculés en fonction du mode de livraison choisi et du poids de votre commande.</p>
+
+            <div class="important-notice">
+                <p><strong>🎁 LIVRAISON GRATUITE dès 50€ d'achat !</strong></p>
+                <p>Pour toute commande d'un montant égal ou supérieur à 50€, les frais de livraison sont offerts en France métropolitaine.</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Montant de la commande</th>
+                        <th>France métropolitaine</th>
+                        <th>DOM-TOM</th>
+                        <th>International</th>
+                    </tr>
+                    <tr>
+                        <td>Moins de 50€</td>
+                        <td>4,90€</td>
+                        <td>9,90€</td>
+                        <td>14,90€</td>
+                    </tr>
+                    <tr>
+                        <td>50€ et plus</td>
+                        <td><strong>GRATUIT</strong></td>
+                        <td>9,90€</td>
+                        <td>14,90€</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>3.3. Moyens de paiement</h3>
+            <p>Nous acceptons les moyens de paiement suivants :</p>
+            <ul>
+                <li><strong>Carte bancaire :</strong> Visa, Mastercard, American Express</li>
+                <li><strong>PayPal</strong></li>
+                <li><strong>Apple Pay</strong></li>
+                <li><strong>Google Pay</strong></li>
+            </ul>
+
+            <p>Le paiement est sécurisé par cryptage SSL. Vos données bancaires ne sont jamais stockées sur nos serveurs.</p>
+
+            <h3>3.4. Sécurité des paiements</h3>
+            <p>Toutes les transactions sont sécurisées et cryptées. MANAYAN ne conserve aucune donnée bancaire. Le paiement est effectué directement auprès de notre prestataire de paiement sécurisé.</p>
+        </div>
+
+        <!-- Livraison -->
+        <div class="cgv-section">
+            <h2>4. Livraison</h2>
+            
+            <h3>4.1. Zones de livraison</h3>
+            <p>Nous livrons dans les zones suivantes :</p>
+            <ul>
+                <li><strong>France métropolitaine</strong> (Corse incluse)</li>
+                <li><strong>DOM-TOM</strong> (Guadeloupe, Martinique, Guyane, Réunion, Mayotte)</li>
+                <li><strong>Union Européenne</strong></li>
+                <li><strong>Suisse</strong></li>
+            </ul>
+
+            <h3>4.2. Délais de livraison</h3>
+            <p>Les délais de livraison sont donnés à titre indicatif et courent à compter de la validation de votre commande :</p>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Délai standard</th>
+                        <th>Délai express</th>
+                    </tr>
+                    <tr>
+                        <td>France métropolitaine</td>
+                        <td>2-4 jours ouvrés</td>
+                        <td>24-48h</td>
+                    </tr>
+                    <tr>
+                        <td>Corse et DOM-TOM</td>
+                        <td>5-8 jours ouvrés</td>
+                        <td>3-5 jours ouvrés</td>
+                    </tr>
+                    <tr>
+                        <td>Union Européenne</td>
+                        <td>5-10 jours ouvrés</td>
+                        <td>3-6 jours ouvrés</td>
+                    </tr>
+                    <tr>
+                        <td>Suisse</td>
+                        <td>7-12 jours ouvrés</td>
+                        <td>5-8 jours ouvrés</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p><strong>Commandes passées avant 14h :</strong> expédiées le jour même (jours ouvrés uniquement).</p>
+
+            <h3>4.3. Suivi de commande</h3>
+            <p>Dès l'expédition de votre commande, vous recevrez un email contenant votre numéro de suivi vous permettant de suivre votre colis en temps réel.</p>
+
+            <h3>4.4. Réception de la commande</h3>
+            <p>Lors de la réception de votre commande :</p>
+            <ul>
+                <li>Vérifiez l'état du colis en présence du livreur</li>
+                <li>En cas de dommage apparent, refusez le colis ou émettez des réserves écrites sur le bon de livraison</li>
+                <li>Photographiez le colis endommagé</li>
+                <li>Contactez-nous dans les <strong>48 heures</strong> à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></li>
+            </ul>
+
+            <h3>4.5. Colis non reçu</h3>
+            <p>Si vous ne recevez pas votre commande dans les délais indiqués, contactez-nous immédiatement. Nous effectuerons une recherche auprès du transporteur.</p>
+        </div>
+
+        <!-- Droit de rétractation -->
+        <div class="cgv-section">
+            <h2>5. Droit de rétractation (14 jours)</h2>
+            
+            <h3>5.1. Délai de rétractation</h3>
+            <p>Conformément à la législation en vigueur, vous disposez d'un délai de <strong>14 jours calendaires</strong> à compter de la réception de votre commande pour exercer votre droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.</p>
+
+            <div class="highlight">
+                <h3>⏰ Retours gratuits sous 14 jours</h3>
+                <p>Chez MANAYAN, les retours sont <strong>gratuits</strong> et <strong>simples</strong>. Vous avez 14 jours pour changer d'avis, sans frais.</p>
+            </div>
+
+            <h3>5.2. Procédure de rétractation</h3>
+            <p>Pour exercer votre droit de rétractation :</p>
+            <ol style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Contactez-nous à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a> ou au <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></li>
+                <li>Indiquez votre numéro de commande et les produits concernés</li>
+                <li>Nous vous enverrons une étiquette de retour prépayée par email</li>
+                <li>Renvoyez les produits dans leur emballage d'origine, non ouverts et non utilisés</li>
+            </ol>
+
+            <h3>5.3. Conditions de retour</h3>
+            <p>Pour être accepté, le produit retourné doit être :</p>
+            <ul>
+                <li>Dans son emballage d'origine, intact et scellé</li>
+                <li>Non ouvert et non utilisé</li>
+                <li>Accompagné de tous ses accessoires et documentation</li>
+                <li>Dans un état permettant sa remise en vente</li>
+            </ul>
+
+            <div class="important-notice">
+                <p><strong>⚠️ Important :</strong> Pour des raisons d'hygiène et de sécurité, nous ne pouvons pas accepter les retours de produits ouverts ou utilisés, conformément à l'article L221-28 du Code de la consommation.</p>
+            </div>
+
+            <h3>5.4. Remboursement</h3>
+            <p>Une fois votre retour reçu et contrôlé, nous procéderons au remboursement dans un délai de <strong>14 jours</strong> à compter de la réception des produits, par le même moyen de paiement que celui utilisé lors de l'achat.</p>
+
+            <p>Les frais de livraison initiaux ne sont pas remboursés (sauf en cas de produit défectueux ou d'erreur de notre part).</p>
+        </div>
+
+        <!-- Garanties -->
+        <div class="cgv-section">
+            <h2>6. Garanties</h2>
+            
+            <h3>6.1. Garantie légale de conformité</h3>
+            <p>Tous nos produits bénéficient de la garantie légale de conformité prévue aux articles L217-4 et suivants du Code de la consommation, et de la garantie contre les vices cachés prévue aux articles 1641 et suivants du Code civil.</p>
+
+            <p>En cas de défaut de conformité, vous pouvez :</p>
+            <ul>
+                <li>Demander la réparation ou le remplacement du produit</li>
+                <li>Obtenir une réduction du prix ou l'annulation de la vente</li>
+            </ul>
+
+            <h3>6.2. Garantie des vices cachés</h3>
+            <p>La garantie des vices cachés permet à l'acheteur de rendre le produit ou d'en obtenir une réduction de prix en cas de défaut caché rendant le produit impropre à l'usage auquel on le destine.</p>
+
+            <h3>6.3. Produit défectueux</h3>
+            <p>Si vous recevez un produit défectueux :</p>
+            <ol style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Contactez-nous immédiatement à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></li>
+                <li>Joignez des photos du produit défectueux</li>
+                <li>Nous vous enverrons un produit de remplacement ou procéderons au remboursement</li>
+                <li>Les frais de retour seront à notre charge</li>
+            </ol>
+        </div>
+
+        <!-- Service client -->
+        <div class="cgv-section">
+            <h2>7. Service client</h2>
+            
+            <h3>7.1. Contact</h3>
+            <p>Notre équipe est à votre disposition pour répondre à toutes vos questions :</p>
+
+            <div class="info-box">
+                <p><strong>Email :</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Téléphone :</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+                <p><strong>Adresse :</strong> MANAYAN SARL, 15 Rue de la Beauté, 75008 Paris, France</p>
+                <p><strong>Horaires :</strong> Du lundi au vendredi, 9h00 - 18h00</p>
+                <p><strong>Délai de réponse :</strong> Sous 24h (jours ouvrés)</p>
+            </div>
+
+            <h3>7.2. Réclamations</h3>
+            <p>En cas de litige ou de réclamation, nous vous invitons à nous contacter en priorité par email. Nous nous engageons à traiter votre demande dans les meilleurs délais et à trouver une solution amiable.</p>
+        </div>
+
+        <!-- Responsabilité -->
+        <div class="cgv-section">
+            <h2>8. Responsabilité et force majeure</h2>
+            
+            <h3>8.1. Limitation de responsabilité</h3>
+            <p>MANAYAN ne saurait être tenu responsable :</p>
+            <ul>
+                <li>Des retards ou défauts de livraison dus au transporteur</li>
+                <li>De l'inexécution du contrat en cas de force majeure</li>
+                <li>Des dommages indirects résultant de l'utilisation des produits</li>
+                <li>Des erreurs de saisie lors de la commande</li>
+            </ul>
+
+            <h3>8.2. Force majeure</h3>
+            <p>MANAYAN ne sera pas responsable de l'inexécution de ses obligations en cas de force majeure telle que définie par la jurisprudence française.</p>
+        </div>
+
+        <!-- Données personnelles -->
+        <div class="cgv-section">
+            <h2>9. Données personnelles</h2>
+            
+            <p>Les données personnelles collectées lors de votre commande sont traitées conformément à notre <a href="confidentialite.html" style="color: var(--sage); text-decoration: underline; font-weight: 600;">Politique de Confidentialité</a>.</p>
+
+            <p>Vos données sont utilisées pour :</p>
+            <ul>
+                <li>Le traitement et le suivi de vos commandes</li>
+                <li>La gestion de votre compte client</li>
+                <li>L'envoi de nos communications marketing (avec votre consentement)</li>
+                <li>L'amélioration de nos services</li>
+            </ul>
+
+            <p>Vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition sur vos données personnelles. Pour exercer ces droits, contactez-nous à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a>.</p>
+        </div>
+
+        <!-- Propriété intellectuelle -->
+        <div class="cgv-section">
+            <h2>10. Propriété intellectuelle</h2>
+            
+            <p>L'ensemble du contenu du site MANAYAN (textes, images, vidéos, logos, graphismes, etc.) est la propriété exclusive de MANAYAN SARL et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.</p>
+
+            <p>Toute reproduction, représentation, modification ou exploitation, même partielle, est strictement interdite sans autorisation préalable écrite de MANAYAN.</p>
+        </div>
+
+        <!-- Droit applicable -->
+        <div class="cgv-section">
+            <h2>11. Droit applicable et juridiction</h2>
+            
+            <h3>11.1. Droit applicable</h3>
+            <p>Les présentes CGV sont soumises au droit français.</p>
+
+            <h3>11.2. Médiation</h3>
+            <p>Conformément à l'article L.612-1 du Code de la consommation, nous proposons un dispositif de médiation de la consommation. En cas de litige, vous pouvez déposer gratuitement une réclamation auprès de notre médiateur :</p>
+
+            <div class="info-box">
+                <p><strong>Médiateur de la consommation</strong></p>
+                <p>Plateforme européenne de résolution des litiges en ligne :</p>
+                <p><a href="https://ec.europa.eu/consumers/odr" target="_blank" style="color: var(--sage); text-decoration: underline;">https://ec.europa.eu/consumers/odr</a></p>
+            </div>
+
+            <h3>11.3. Juridiction compétente</h3>
+            <p>En cas de litige non résolu à l'amiable, les tribunaux compétents seront ceux du ressort de Paris, France.</p>
+        </div>
+
+        <!-- Modifications -->
+        <div class="cgv-section">
+            <h2>12. Modifications des CGV</h2>
+            
+            <p>MANAYAN se réserve le droit de modifier les présentes CGV à tout moment. Les CGV applicables sont celles en vigueur au moment de la passation de votre commande.</p>
+
+            <p>Nous vous recommandons de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.</p>
+        </div>
+
+        <div class="last-update">
+            <p>Dernière mise à jour : 3 février 2026</p>
+            <p>Version 1.0</p>
+        </div>
+
+    </section>
+
+    <!-- CGV CONTENT EN -->
+    <section class="cgv-content lang-content lang-en">
+        
+        <!-- Introduction -->
+        <div class="cgv-section">
+            <h2>General Information</h2>
+            
+            <p>These Terms and Conditions of Sale govern all orders placed on the <strong>MANAYAN</strong> website. By placing an order, you accept these terms without reservation.</p>
+
+            <div class="info-box">
+                <p><strong>Seller:</strong> MANAYAN SARL</p>
+                <p><strong>Registered office:</strong> 15 Rue de la Beauté, 75008 Paris, France</p>
+                <p><strong>SIRET:</strong> 123 456 789 00012</p>
+                <p><strong>VAT:</strong> FR 12 123456789</p>
+                <p><strong>Email:</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+            </div>
+
+            <p><strong>Effective date:</strong> February 3, 2026</p>
+        </div>
+
+        <!-- Products -->
+        <div class="cgv-section">
+            <h2>1. Product Presentation</h2>
+            
+            <h3>1.1. Description</h3>
+            <p>The products offered for sale are those shown on the <strong>MANAYAN</strong> website at the time of consultation. Each product is accompanied by a description detailing its main characteristics.</p>
+
+            <h3>1.2. Availability</h3>
+            <p>Our product offers and prices are valid as long as they are visible on the site, subject to availability. In case of product unavailability after placing your order, we will inform you as soon as possible and offer:</p>
+            <ul>
+                <li>A replacement product of equivalent quality and price</li>
+                <li>Full refund of amounts paid</li>
+                <li>Order cancellation</li>
+            </ul>
+
+            <div class="highlight">
+                <h3>🌿 Our product ranges</h3>
+                <ul>
+                    <li><strong>Growth Treatment:</strong> Dietary supplements to stimulate hair growth</li>
+                    <li><strong>Hair Tea Elixir:</strong> Botanical infusions with 12 active plants</li>
+                    <li><strong>Complete Ritual:</strong> Combined packs for optimal results</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Delivery -->
+        <div class="cgv-section">
+            <h2>4. Delivery</h2>
+            
+            <h3>4.1. Delivery zones</h3>
+            <p>We deliver to the following zones:</p>
+            <ul>
+                <li><strong>Metropolitan France</strong> (including Corsica)</li>
+                <li><strong>French Overseas Territories</strong></li>
+                <li><strong>European Union</strong></li>
+                <li><strong>Switzerland</strong></li>
+            </ul>
+
+            <div class="important-notice">
+                <p><strong>🎁 FREE DELIVERY on orders over €50!</strong></p>
+                <p>For any order of €50 or more, delivery is free in metropolitan France.</p>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Order amount</th>
+                        <th>Metropolitan France</th>
+                        <th>French Overseas</th>
+                        <th>International</th>
+                    </tr>
+                    <tr>
+                        <td>Less than €50</td>
+                        <td>€4.90</td>
+                        <td>€9.90</td>
+                        <td>€14.90</td>
+                    </tr>
+                    <tr>
+                        <td>€50 and more</td>
+                        <td><strong>FREE</strong></td>
+                        <td>€9.90</td>
+                        <td>€14.90</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right of withdrawal -->
+        <div class="cgv-section">
+            <h2>5. Right of Withdrawal (14 days)</h2>
+            
+            <h3>5.1. Withdrawal period</h3>
+            <p>In accordance with current legislation, you have a period of <strong>14 calendar days</strong> from receipt of your order to exercise your right of withdrawal, without having to justify reasons or pay penalties.</p>
+
+            <div class="highlight">
+                <h3>⏰ Free returns within 14 days</h3>
+                <p>At MANAYAN, returns are <strong>free</strong> and <strong>simple</strong>. You have 14 days to change your mind, at no cost.</p>
+            </div>
+
+            <h3>5.2. Return procedure</h3>
+            <p>To exercise your right of withdrawal:</p>
+            <ol style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Contact us at <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a> or at <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></li>
+                <li>Indicate your order number and the products concerned</li>
+                <li>We will send you a prepaid return label by email</li>
+                <li>Return the products in their original packaging, unopened and unused</li>
+            </ol>
+        </div>
+
+        <!-- Customer service -->
+        <div class="cgv-section">
+            <h2>7. Customer Service</h2>
+            
+            <h3>7.1. Contact</h3>
+            <p>Our team is available to answer all your questions:</p>
+
+            <div class="info-box">
+                <p><strong>Email:</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+                <p><strong>Address:</strong> MANAYAN SARL, 15 Rue de la Beauté, 75008 Paris, France</p>
+                <p><strong>Hours:</strong> Monday to Friday, 9:00 AM - 6:00 PM</p>
+                <p><strong>Response time:</strong> Within 24 hours (business days)</p>
+            </div>
+        </div>
+
+        <div class="last-update">
+            <p>Last updated: February 3, 2026</p>
+            <p>Version 1.0</p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>MANAYAN</h3>
+                <p class="lang-fr">La référence de la pousse capillaire naturelle. Des formules botaniques d'exception pour révéler la beauté de vos cheveux.</p>
+                <p class="lang-en" style="display:none;">The reference in natural hair growth. Exceptional botanical formulas to reveal the beauty of your hair.</p>
+            </div>
+            <div class="footer-column">
+                <h4 class="lang-fr">Navigation</h4>
+                <h4 class="lang-en" style="display:none;">Navigation</h4>
+                <a href="index.html" class="lang-fr">Accueil</a>
+                <a href="index.html" class="lang-en" style="display:none;">Home</a>
+                <a href="boutique.html" class="lang-fr">Boutique</a>
+                <a href="boutique.html" class="lang-en" style="display:none;">Shop</a>
+                <a href="propos.html" class="lang-fr">À propos</a>
+                <a href="propos.html" class="lang-en" style="display:none;">About</a>
+                <a href="contact.html" class="lang-fr">Contact</a>
+                <a href="contact.html" class="lang-en" style="display:none;">Contact</a>
+            </div>
+            <div class="footer-column">
+                <h4 class="lang-fr">Informations</h4>
+                <h4 class="lang-en" style="display:none;">Information</h4>
+                <a href="cgv.html" class="lang-fr">CGV</a>
+                <a href="cgv.html" class="lang-en" style="display:none;">Terms of Sale</a>
+                <a href="cgv.html#livraison" class="lang-fr">Livraison</a>
+                <a href="cgv.html#livraison" class="lang-en" style="display:none;">Delivery</a>
+                <a href="mentions-legales.html" class="lang-fr">Mentions légales</a>
+                <a href="mentions-legales.html" class="lang-en" style="display:none;">Legal Notice</a>
+                <a href="confidentialite.html" class="lang-fr">Confidentialité</a>
+                <a href="confidentialite.html" class="lang-en" style="display:none;">Privacy Policy</a>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="mailto:contact@manayan.fr">contact@manayan.fr</a>
+                <a href="tel:+33142857396">+33 1 42 85 73 96</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 MANAYAN — <span class="lang-fr">Tous droits réservés</span><span class="lang-en" style="display:none;">All rights reserved</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Language switcher
+        function changeLang(lang) {
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Hide all language content
+            document.querySelectorAll('.lang-fr, .lang-en').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Show selected language content
+            document.querySelectorAll(`.lang-${lang}`).forEach(el => {
+                el.style.display = el.tagName === 'A' || el.tagName === 'SPAN' || el.tagName === 'P' || el.tagName === 'H4' 
+                    ? 'block' 
+                    : el.classList.contains('lang-content') 
+                    ? 'block' 
+                    : 'block';
+            });
+
+            // Store preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Load saved language preference
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
+            changeLang(savedLang);
+        });
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        updateCartCount();
+    </script>
+
+</body>
+</html>

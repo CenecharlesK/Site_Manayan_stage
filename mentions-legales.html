@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales — MANAYAN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --sage: #556b2f;
+            --moss: #73956f;
+            --cream: #fef9f3;
+            --sand: #f4ede4;
+            --gold: #c9a961;
+            --terracotta: #d4a574;
+            --shadow-soft: rgba(26, 58, 46, 0.08);
+            --shadow-hard: rgba(26, 58, 46, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--forest);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(254, 249, 243, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(26, 58, 46, 0.1);
+            box-shadow: 0 2px 20px var(--shadow-soft);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: var(--forest);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--forest);
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sage);
+            transition: width 0.4s;
+        }
+
+        .nav-links a:hover {
+            color: var(--sage);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            background: var(--sand);
+            padding: 8px 14px;
+            border-radius: 25px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--sage);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--sage);
+            color: white;
+        }
+
+        .cart-btn {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--terracotta);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
+            padding: 80px 8% 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--forest);
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--sage);
+        }
+
+        /* LEGAL CONTENT */
+        .legal-content {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 8%;
+        }
+
+        .legal-section {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px var(--shadow-soft);
+        }
+
+        .legal-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            margin-bottom: 30px;
+            color: var(--forest);
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--sand);
+        }
+
+        .legal-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            color: var(--sage);
+        }
+
+        .legal-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--sage);
+            margin-bottom: 20px;
+        }
+
+        .legal-section ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .legal-section li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--sage);
+            margin-bottom: 12px;
+        }
+
+        .legal-section strong {
+            color: var(--forest);
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: var(--sand);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid var(--gold);
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--moss), var(--gold));
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .highlight p {
+            color: white;
+        }
+
+        .last-update {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--sand);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--forest);
+            color: white;
+            padding: 80px 8% 40px;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .footer-brand p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--moss);
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--moss);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(115, 149, 111, 0.3);
+            color: var(--moss);
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .legal-section {
+                padding: 35px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MANAYAN</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="propos.html">À propos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active">FR</button>
+                <button class="lang-btn">EN</button>
+            </div>
+            <a href="panier.html" class="cart-btn">
+                🛒
+                <span class="cart-badge" id="cart-count">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <h1>Mentions Légales</h1>
+        <p>Informations légales et réglementaires du site MANAYAN</p>
+    </header>
+
+    <!-- LEGAL CONTENT -->
+    <section class="legal-content">
+        
+        <!-- Section 1: Éditeur du site -->
+        <div class="legal-section">
+            <h2>1. Éditeur du site</h2>
+            
+            <div class="info-box">
+                <p><strong>Nom du site :</strong> MANAYAN</p>
+                <p><strong>Nature du site :</strong> Site e-commerce de produits capillaires naturels</p>
+                <p><strong>Raison sociale :</strong> MANAYAN SARL</p>
+                <p><strong>Capital social :</strong> 10 000 €</p>
+                <p><strong>SIRET :</strong> 123 456 789 00012</p>
+                <p><strong>Numéro TVA intracommunautaire :</strong> FR 12 123456789</p>
+            </div>
+
+            <h3>Siège social</h3>
+            <div class="info-box">
+                <p><strong>Adresse :</strong> 15 Rue de la Beauté</p>
+                <p>75008 Paris, France</p>
+            </div>
+
+            <h3>Contact</h3>
+            <div class="info-box">
+                <p><strong>Email :</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Téléphone :</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+                <p><strong>Horaires :</strong> Du lundi au vendredi, 9h00 - 18h00</p>
+            </div>
+
+            <h3>Directeur de la publication</h3>
+            <p><strong>Camille Rousseau</strong> - Fondatrice et Directrice Générale de MANAYAN</p>
+        </div>
+
+        <!-- Section 2: Hébergement -->
+        <div class="legal-section">
+            <h2>2. Hébergement du site</h2>
+            
+            <div class="info-box">
+                <p><strong>Hébergeur :</strong> GitHub Pages</p>
+                <p><strong>Société :</strong> GitHub, Inc.</p>
+                <p><strong>Adresse :</strong> 88 Colin P Kelly Jr Street, San Francisco, CA 94107, États-Unis</p>
+                <p><strong>Site web :</strong> <a href="https://pages.github.com" target="_blank" style="color: var(--sage); text-decoration: underline;">https://pages.github.com</a></p>
+            </div>
+        </div>
+
+        <!-- Section 3: Propriété intellectuelle -->
+        <div class="legal-section">
+            <h2>3. Propriété intellectuelle</h2>
+            
+            <p>L'ensemble du contenu présent sur le site <strong>MANAYAN</strong> (textes, images, graphismes, logos, vidéos, icônes, sons, logiciels, etc.) est la propriété exclusive de MANAYAN SARL ou de ses partenaires.</p>
+            
+            <p>Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de MANAYAN.</p>
+
+            <div class="highlight">
+                <h3>⚠️ Protection des contenus</h3>
+                <p>Toute exploitation non autorisée du site ou de l'un quelconque des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.</p>
+            </div>
+
+            <h3>Marques</h3>
+            <p>Les marques <strong>MANAYAN</strong>, ainsi que tous les logos et visuels associés, sont des marques déposées. Toute utilisation non autorisée de ces marques est strictement interdite.</p>
+        </div>
+
+        <!-- Section 4: Protection des données personnelles -->
+        <div class="legal-section">
+            <h2>4. Protection des données personnelles (RGPD)</h2>
+            
+            <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez de droits sur vos données personnelles.</p>
+
+            <h3>Responsable du traitement</h3>
+            <div class="info-box">
+                <p><strong>MANAYAN SARL</strong></p>
+                <p>15 Rue de la Beauté, 75008 Paris, France</p>
+                <p>Email : <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+            </div>
+
+            <h3>Données collectées</h3>
+            <p>Nous collectons les données suivantes :</p>
+            <ul>
+                <li>Nom et prénom</li>
+                <li>Adresse email</li>
+                <li>Numéro de téléphone</li>
+                <li>Adresse de livraison et de facturation</li>
+                <li>Historique de commandes</li>
+                <li>Données de navigation (cookies)</li>
+            </ul>
+
+            <h3>Finalité du traitement</h3>
+            <p>Vos données personnelles sont collectées pour :</p>
+            <ul>
+                <li>La gestion de vos commandes</li>
+                <li>La création et la gestion de votre compte client</li>
+                <li>L'envoi de nos newsletters et offres promotionnelles (avec votre consentement)</li>
+                <li>L'amélioration de nos services</li>
+                <li>Le respect de nos obligations légales</li>
+            </ul>
+
+            <h3>Vos droits</h3>
+            <p>Conformément à la réglementation, vous disposez des droits suivants :</p>
+            <ul>
+                <li><strong>Droit d'accès :</strong> obtenir une copie de vos données personnelles</li>
+                <li><strong>Droit de rectification :</strong> corriger vos données inexactes ou incomplètes</li>
+                <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
+                <li><strong>Droit à la limitation :</strong> limiter le traitement de vos données</li>
+                <li><strong>Droit à la portabilité :</strong> récupérer vos données dans un format structuré</li>
+                <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données</li>
+                <li><strong>Droit de retirer votre consentement :</strong> à tout moment</li>
+            </ul>
+
+            <div class="highlight">
+                <h3>📧 Exercer vos droits</h3>
+                <p>Pour exercer vos droits, contactez-nous à <a href="mailto:contact@manayan.fr" style="color: white; text-decoration: underline;">contact@manayan.fr</a> en précisant votre demande et en joignant une copie de votre pièce d'identité.</p>
+            </div>
+
+            <h3>Durée de conservation</h3>
+            <p>Vos données sont conservées pendant la durée nécessaire aux finalités pour lesquelles elles ont été collectées, conformément aux obligations légales.</p>
+
+            <h3>Sécurité des données</h3>
+            <p>Nous mettons en œuvre toutes les mesures techniques et organisationnelles appropriées pour garantir la sécurité de vos données personnelles et empêcher leur altération, endommagement ou accès par des tiers non autorisés.</p>
+        </div>
+
+        <!-- Section 5: Cookies -->
+        <div class="legal-section">
+            <h2>5. Cookies</h2>
+            
+            <p>Le site <strong>MANAYAN</strong> utilise des cookies pour améliorer votre expérience de navigation et analyser l'utilisation du site.</p>
+
+            <h3>Qu'est-ce qu'un cookie ?</h3>
+            <p>Un cookie est un petit fichier texte stocké sur votre ordinateur ou appareil mobile lors de votre visite sur un site web. Les cookies permettent de reconnaître votre navigateur et de mémoriser certaines informations.</p>
+
+            <h3>Types de cookies utilisés</h3>
+            <ul>
+                <li><strong>Cookies essentiels :</strong> nécessaires au fonctionnement du site (panier d'achat, connexion)</li>
+                <li><strong>Cookies de performance :</strong> pour analyser l'utilisation du site et améliorer nos services</li>
+                <li><strong>Cookies de personnalisation :</strong> pour mémoriser vos préférences (langue, devise)</li>
+                <li><strong>Cookies publicitaires :</strong> pour diffuser des publicités pertinentes (avec votre consentement)</li>
+            </ul>
+
+            <h3>Gestion des cookies</h3>
+            <p>Vous pouvez à tout moment désactiver les cookies dans les paramètres de votre navigateur. Cependant, cela peut affecter certaines fonctionnalités du site.</p>
+
+            <div class="info-box">
+                <p><strong>Configuration des navigateurs :</strong></p>
+                <p>• Chrome : Menu > Paramètres > Confidentialité et sécurité > Cookies</p>
+                <p>• Firefox : Menu > Options > Vie privée et sécurité</p>
+                <p>• Safari : Préférences > Confidentialité > Cookies</p>
+                <p>• Edge : Paramètres > Confidentialité et sécurité > Cookies</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Conditions d'utilisation -->
+        <div class="legal-section">
+            <h2>6. Conditions d'utilisation</h2>
+            
+            <h3>Accès au site</h3>
+            <p>L'accès au site <strong>MANAYAN</strong> est gratuit. Les frais d'accès et d'utilisation du réseau de télécommunication sont à la charge de l'utilisateur.</p>
+
+            <h3>Disponibilité du site</h3>
+            <p>Nous nous efforçons de maintenir le site accessible en permanence, mais nous ne pouvons garantir une disponibilité de 100%. Le site peut être temporairement indisponible pour des raisons de maintenance ou de mise à jour.</p>
+
+            <h3>Responsabilité</h3>
+            <p>MANAYAN ne saurait être tenu responsable :</p>
+            <ul>
+                <li>Des interruptions ou dysfonctionnements du site</li>
+                <li>Des dommages directs ou indirects résultant de l'utilisation du site</li>
+                <li>De l'impossibilité d'accéder au site</li>
+                <li>Des virus informatiques pouvant affecter votre équipement</li>
+            </ul>
+
+            <h3>Utilisation du site</h3>
+            <p>L'utilisateur s'engage à utiliser le site de manière loyale et conforme aux lois en vigueur. Toute utilisation abusive ou frauduleuse est strictement interdite.</p>
+        </div>
+
+        <!-- Section 7: Liens hypertextes -->
+        <div class="legal-section">
+            <h2>7. Liens hypertextes</h2>
+            
+            <p>Le site <strong>MANAYAN</strong> peut contenir des liens vers d'autres sites web. MANAYAN n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.</p>
+
+            <p>La création de liens hypertextes vers le site <strong>MANAYAN</strong> nécessite une autorisation préalable écrite. Pour toute demande, contactez-nous à <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a>.</p>
+        </div>
+
+        <!-- Section 8: Droit applicable -->
+        <div class="legal-section">
+            <h2>8. Droit applicable et juridiction</h2>
+            
+            <p>Les présentes mentions légales sont régies par le droit français.</p>
+
+            <p>En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut d'accord amiable, le litige sera porté devant les tribunaux compétents de Paris, France.</p>
+
+            <div class="highlight">
+                <h3>⚖️ Médiation</h3>
+                <p>Conformément à l'article L.612-1 du Code de la consommation, vous pouvez recourir gratuitement à un médiateur de la consommation en cas de litige. Nous adhérons à la médiation de la consommation.</p>
+            </div>
+        </div>
+
+        <!-- Section 9: Contact -->
+        <div class="legal-section">
+            <h2>9. Contact</h2>
+            
+            <p>Pour toute question concernant ces mentions légales ou le site <strong>MANAYAN</strong>, vous pouvez nous contacter :</p>
+
+            <div class="info-box">
+                <p><strong>Par email :</strong> <a href="mailto:contact@manayan.fr" style="color: var(--sage); text-decoration: underline;">contact@manayan.fr</a></p>
+                <p><strong>Par téléphone :</strong> <a href="tel:+33142857396" style="color: var(--sage); text-decoration: underline;">+33 1 42 85 73 96</a></p>
+                <p><strong>Par courrier :</strong> MANAYAN SARL<br>15 Rue de la Beauté<br>75008 Paris, France</p>
+                <p><strong>Horaires :</strong> Du lundi au vendredi, 9h00 - 18h00</p>
+            </div>
+        </div>
+
+        <div class="last-update">
+            <p>Dernière mise à jour : 3 février 2026</p>
+            <p>Version 1.0</p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>MANAYAN</h3>
+                <p>La référence de la pousse capillaire naturelle. Des formules botaniques d'exception pour révéler la beauté de vos cheveux.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Navigation</h4>
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="propos.html">À propos</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-column">
+                <h4>Informations</h4>
+                <a href="#">CGV</a>
+                <a href="#">Livraison</a>
+                <a href="mentions-legales.html">Mentions légales</a>
+                <a href="#">Confidentialité</a>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="mailto:contact@manayan.fr">contact@manayan.fr</a>
+                <a href="tel:+33142857396">+33 1 42 85 73 96</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 MANAYAN — Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        updateCartCount();
+    </script>
+
+</body>
+</html>

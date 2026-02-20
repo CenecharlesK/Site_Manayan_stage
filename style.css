@@ -1,0 +1,91 @@
+:root{
+ --dark:#2c3e2f;
+ --sage:#5a6f54;
+ --beige:#f5f3ee;
+ --light:#6b7c68;
+ --white:#fff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Montserrat,sans-serif;background:var(--beige);color:var(--dark);line-height:1.6}
+
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+.navbar{
+ background:#fff;
+ padding:20px 5%;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ position:sticky;
+ top:0;
+ border-bottom:1px solid #eee;
+}
+.logo{font-family:'Cormorant Garamond';font-size:28px;letter-spacing:4px}
+.nav-links{display:flex;gap:30px;list-style:none;font-size:13px;text-transform:uppercase}
+.lang-toggle span{
+ cursor:pointer;
+ padding:6px 10px;
+ font-size:11px;
+}
+.lang-toggle .active{background:var(--sage);color:#fff}
+
+/* SECTIONS */
+.section{max-width:1200px;margin:100px auto;padding:0 40px}
+.section-title{text-align:center;font-family:'Cormorant Garamond';font-size:42px;margin-bottom:50px}
+
+/* GRID PRODUITS */
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:40px;
+}
+.card{
+ background:#fff;
+ padding:20px;
+ position:relative;
+ text-align:center;
+}
+.card img{width:100%;margin-bottom:15px}
+.card h3{font-family:'Cormorant Garamond';font-size:22px}
+.price{color:var(--sage);font-weight:600;margin:10px 0}
+
+.badge{
+ position:absolute;
+ top:15px;
+ left:15px;
+ font-size:11px;
+ padding:5px 10px;
+}
+.badge.new{background:var(--dark);color:#fff}
+.badge.out{background:#c0392b;color:#fff}
+
+/* BOUTONS */
+.btn{
+ padding:12px 25px;
+ background:var(--dark);
+ color:#fff;
+ border:none;
+ cursor:pointer;
+ font-size:12px;
+}
+.btn:disabled{background:#aaa;cursor:not-allowed}
+
+/* QUANTITÉ */
+.qty{
+ display:flex;
+ justify-content:center;
+ gap:10px;
+ margin:10px 0;
+}
+.qty input{width:50px;text-align:center}
+
+/* FOOTER */
+footer{
+ background:#fff;
+ padding:40px;
+ text-align:center;
+ font-size:12px;
+ margin-top:80px;
+}

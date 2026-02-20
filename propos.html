@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos | MANAYAN - L'Art du Hair Tea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #1a2e1f;
+            --sage: #4a5d47;
+            --beige: #f8f6f3;
+            --cream: #fdfcfa;
+            --accent: #8b9d83;
+            --white: #fff;
+            --shadow: rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--beige);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(255,255,255,0.98);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            letter-spacing: 5px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 45px;
+            list-style: none;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: var(--dark);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+            color: var(--sage);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            background: var(--beige);
+            padding: 6px 10px;
+            border-radius: 20px;
+        }
+
+        .lang-btn {
+            padding: 4px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--sage);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--sage);
+            color: white;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 22px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--sage);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* HERO */
+        .about-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--dark);
+        }
+
+        .about-hero img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(42px, 7vw, 75px);
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        /* CONTENT */
+        .container {
+            max-width: 1100px;
+            margin: 90px auto;
+            padding: 0 40px;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .intro-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .intro-text p {
+            font-size: 18px;
+            color: var(--sage);
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+        /* USAGE GRID */
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 70px;
+        }
+
+        .usage-card {
+            background: white;
+            padding: 50px 35px;
+            text-align: center;
+            transition: all 0.4s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+        .usage-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px var(--shadow);
+        }
+
+        .usage-icon {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--sage);
+            margin-bottom: 18px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .usage-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            margin-bottom: 18px;
+            font-weight: 400;
+            color: var(--dark);
+        }
+
+        .usage-card p {
+            font-size: 15px;
+            color: var(--sage);
+            line-height: 1.7;
+        }
+
+        /* OBJECTIVE BANNER */
+        .objective-banner {
+            background: var(--dark);
+            color: white;
+            padding: 100px 40px;
+            text-align: center;
+            margin: 100px 0;
+        }
+
+        .objective-banner h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 300;
+            font-style: italic;
+            max-width: 850px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* TABS */
+        .tabs-container {
+            margin-top: 80px;
+        }
+
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--sage);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+        }
+
+        .tab-btn.active {
+            color: var(--dark);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--dark);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* REVIEWS */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .reviewer-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .reviewer-info .date {
+            font-size: 12px;
+            color: var(--sage);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stars {
+            color: #f39c12;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            color: var(--dark);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            background: var(--sage);
+            color: white;
+            padding: 4px 10px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER */
+        footer {
+            background: white;
+            padding: 70px 10%;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        footer p {
+            color: var(--sage);
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-center {
+                display: none;
+            }
+            .usage-grid {
+                grid-template-columns: 1fr;
+            }
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            .tabs-header {
+                gap: 20px;
+            }
+            .tab-btn {
+                padding: 12px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a class="logo" href="index.html">MANAYAN</a>
+        <ul class="nav-center">
+            <li><a href="boutique.html" data-fr="Boutique" data-en="Shop">Boutique</a></li>
+            <li><a href="propos.html" data-fr="À propos" data-en="About">À propos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="lang-selector">
+                <button class="lang-btn active" id="btn-fr" onclick="changeLang('fr')">FR</button>
+                <button class="lang-btn" id="btn-en" onclick="changeLang('en')">EN</button>
+            </div>
+            <a href="panier.html" class="cart-icon">
+                🛒
+                <span class="cart-count" id="cart-count">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <img src="https://scout-buzz-15590094.figma.site/_assets/v11/5056090f50b02fc7e8813d2586075e5b5b2eee5a.png" alt="MANAYAN Hair Tea">
+        <div class="hero-content">
+            <h1 data-fr="L'Art du Hair Tea" data-en="The Art of Hair Tea">L'Art du Hair Tea</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="container">
+            <div class="intro-text">
+                <h2 data-fr="Qu'est-ce qu'un Hair Tea ?" data-en="What is a Hair Tea?">Qu'est-ce qu'un Hair Tea ?</h2>
+                <p data-fr="Le Hair Tea est un produit de bien-être 3-en-1 conçu pour agir de l'intérieur vers l'extérieur. Une synergie parfaite entre plantes médicinales et soin capillaire."
+                   data-en="Hair Tea is a 3-in-1 wellness product designed to work from the inside out. A perfect synergy between medicinal plants and hair care.">
+                    Le Hair Tea est un produit de bien-être 3-en-1 conçu pour agir de l'intérieur vers l'extérieur. Une synergie parfaite entre plantes médicinales et soin capillaire.
+                </p>
+            </div>
+
+            <div class="usage-grid">
+                <article class="usage-card">
+                    <span class="usage-icon" data-fr="Interne" data-en="Internal">Interne</span>
+                    <h3 data-fr="Boire" data-en="Drink">Boire</h3>
+                    <p data-fr="Infusion quotidienne pour nourrir le bulbe pileux via la circulation sanguine."
+                       data-en="Daily infusion to nourish the hair follicle through blood circulation.">
+                        Infusion quotidienne pour nourrir le bulbe pileux via la circulation sanguine.
+                    </p>
+                </article>
+
+                <article class="usage-card">
+                    <span class="usage-icon" data-fr="Direct" data-en="Direct">Direct</span>
+                    <h3 data-fr="Vaporiser" data-en="Spray">Vaporiser</h3>
+                    <p data-fr="Utilisez-le en spray capillaire DIY pour rafraîchir et hydrater vos boucles au quotidien."
+                       data-en="Use it as a DIY hair spray to refresh and hydrate your curls daily.">
+                        Utilisez-le en spray capillaire DIY pour rafraîchir et hydrater vos boucles au quotidien.
+                    </p>
+                </article>
+
+                <article class="usage-card">
+                    <span class="usage-icon" data-fr="Externe" data-en="External">Externe</span>
+                    <h3 data-fr="Rincer" data-en="Rinse">Rincer</h3>
+                    <p data-fr="En rinçage après shampooing pour refermer les écailles et apporter une brillance miroir."
+                       data-en="As a rinse after shampoo to close the cuticles and bring mirror shine.">
+                        En rinçage après shampooing pour refermer les écailles et apporter une brillance miroir.
+                    </p>
+                </article>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="switchTab('concept')" data-fr="Le Concept" data-en="The Concept">Le Concept</button>
+                    <button class="tab-btn" onclick="switchTab('reviews')" data-fr="Avis Clients" data-en="Customer Reviews">Avis Clients</button>
+                </div>
+
+                <div id="concept" class="tab-content active">
+                    <div class="objective-banner">
+                        <h2 data-fr="« Un produit. Trois usages. Un objectif : des cheveux plus forts et plus sains. »"
+                            data-en="« One product. Three uses. One goal: stronger and healthier hair. »">
+                            « Un produit. Trois usages. Un objectif : des cheveux plus forts et plus sains. »
+                        </h2>
+                    </div>
+                </div>
+
+                <div id="reviews" class="tab-content">
+                    <div class="reviews-grid" id="reviews-grid">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 MANAYAN — <span data-fr="Tous droits réservés" data-en="All rights reserved">Tous droits réservés</span></p>
+    </footer>
+
+    <script>
+        const reviewsData = {
+            fr: [
+                {
+                    name: 'Sophie M.',
+                    date: 'Janvier 2026',
+                    rating: 5,
+                    text: 'Produit incroyable ! Mes cheveux sont plus doux et brillants après seulement 3 semaines d\'utilisation. Le concept 3-en-1 est vraiment innovant et pratique.',
+                    verified: true
+                },
+                {
+                    name: 'Léa D.',
+                    date: 'Décembre 2025',
+                    rating: 5,
+                    text: 'J\'adore l\'approche holistique de MANAYAN. Boire mon Hair Tea le matin est devenu un rituel que j\'attends avec impatience. Résultats visibles !',
+                    verified: true
+                },
+                {
+                    name: 'Amélie R.',
+                    date: 'Décembre 2025',
+                    rating: 4,
+                    text: 'Très bon produit, naturel et efficace. Le goût de l\'infusion est agréable. J\'utilise surtout en rinçage et je vois la différence sur mes longueurs.',
+                    verified: true
+                },
+                {
+                    name: 'Clara B.',
+                    date: 'Novembre 2025',
+                    rating: 5,
+                    text: 'Enfin un produit capillaire qui agit de l\'intérieur ! Mes cheveux sont plus forts, moins cassants. Je recommande vivement le Rosemary Strength.',
+                    verified: true
+                },
+                {
+                    name: 'Julie K.',
+                    date: 'Novembre 2025',
+                    rating: 5,
+                    text: 'Le packaging est magnifique et le produit tient ses promesses. Mes boucles sont revitalisées. J\'ai commandé 3 parfums différents et j\'adore tous !',
+                    verified: true
+                },
+                {
+                    name: 'Marine L.',
+                    date: 'Octobre 2025',
+                    rating: 4,
+                    text: 'Concept génial et produit de qualité. Je l\'utilise en spray quotidien et mes cheveux sont beaucoup plus hydratés. Livraison rapide en plus !',
+                    verified: true
+                }
+            ],
+            en: [
+                {
+                    name: 'Sophie M.',
+                    date: 'January 2026',
+                    rating: 5,
+                    text: 'Amazing product! My hair is softer and shinier after only 3 weeks of use. The 3-in-1 concept is truly innovative and practical.',
+                    verified: true
+                },
+                {
+                    name: 'Léa D.',
+                    date: 'December 2025',
+                    rating: 5,
+                    text: 'I love MANAYAN\'s holistic approach. Drinking my Hair Tea in the morning has become a ritual I look forward to. Visible results!',
+                    verified: true
+                },
+                {
+                    name: 'Amélie R.',
+                    date: 'December 2025',
+                    rating: 4,
+                    text: 'Very good product, natural and effective. The infusion tastes pleasant. I mainly use it as a rinse and I see the difference on my lengths.',
+                    verified: true
+                },
+                {
+                    name: 'Clara B.',
+                    date: 'November 2025',
+                    rating: 5,
+                    text: 'Finally a hair product that works from within! My hair is stronger, less brittle. I highly recommend the Rosemary Strength.',
+                    verified: true
+                },
+                {
+                    name: 'Julie K.',
+                    date: 'November 2025',
+                    rating: 5,
+                    text: 'The packaging is beautiful and the product delivers on its promises. My curls are revitalized. I ordered 3 different scents and I love them all!',
+                    verified: true
+                },
+                {
+                    name: 'Marine L.',
+                    date: 'October 2025',
+                    rating: 4,
+                    text: 'Great concept and quality product. I use it as a daily spray and my hair is much more hydrated. Fast delivery too!',
+                    verified: true
+                }
+            ]
+        };
+
+        let currentLang = 'fr';
+
+        function changeLang(lang) {
+            currentLang = lang;
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            document.querySelectorAll('[data-fr]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+
+            renderReviews();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function renderReviews() {
+            const reviews = reviewsData[currentLang];
+            const grid = document.getElementById('reviews-grid');
+            const verifiedText = currentLang === 'fr' ? 'Achat vérifié' : 'Verified purchase';
+            
+            grid.innerHTML = reviews.map(review => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <h4>${review.name}</h4>
+                            <div class="date">${review.date}</div>
+                        </div>
+                        <div class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                    </div>
+                    <p class="review-text">${review.text}</p>
+                    ${review.verified ? `<span class="verified-badge">${verifiedText}</span>` : ''}
+                </div>
+            `).join('');
+        }
+
+        updateCartCount();
+        renderReviews();
+    </script>
+
+</body>
+</html>

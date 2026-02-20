@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier — MANAYAN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR&components=buttons,marks"></script>
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --sage: #556b2f;
+            --moss: #73956f;
+            --cream: #fef9f3;
+            --sand: #f4ede4;
+            --gold: #c9a961;
+            --terracotta: #d4a574;
+            --shadow-soft: rgba(26, 58, 46, 0.08);
+            --shadow-hard: rgba(26, 58, 46, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--forest);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(254, 249, 243, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(26, 58, 46, 0.1);
+            box-shadow: 0 2px 20px var(--shadow-soft);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            color: var(--forest);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--forest);
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sage);
+            transition: width 0.4s;
+        }
+
+        .nav-links a:hover {
+            color: var(--sage);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            background: var(--sand);
+            padding: 8px 14px;
+            border-radius: 25px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--sage);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--sage);
+            color: white;
+        }
+
+        .cart-btn {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--terracotta);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
+            padding: 80px 8% 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--forest);
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--sage);
+        }
+
+        /* CART CONTAINER */
+        .cart-container {
+            max-width: 1400px;
+            margin: 60px auto 100px;
+            padding: 0 8%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* CART ITEMS */
+        .cart-items {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow-soft);
+        }
+
+        .cart-items h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: var(--forest);
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 25px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 8px;
+        }
+
+        .item-category {
+            font-size: 13px;
+            color: var(--sage);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--sage);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .remove-btn:hover {
+            color: #e74c3c;
+        }
+
+        .item-subtotal {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        /* EMPTY CART */
+        .empty-cart {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+            opacity: 0.3;
+        }
+
+        .empty-cart h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--forest);
+        }
+
+        .empty-cart p {
+            font-size: 16px;
+            color: var(--sage);
+            margin-bottom: 30px;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--forest);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .shop-btn:hover {
+            background: var(--sage);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow-hard);
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow-soft);
+            position: sticky;
+            top: 120px;
+        }
+
+        .order-summary h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--forest);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 16px;
+            color: var(--sage);
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            padding-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        .promo-code {
+            margin: 25px 0;
+        }
+
+        .promo-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--sand);
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .promo-input:focus {
+            border-color: var(--sage);
+        }
+
+        .promo-btn {
+            padding: 12px 25px;
+            background: var(--sand);
+            color: var(--forest);
+            border: none;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .promo-btn:hover {
+            background: var(--sage);
+            color: white;
+        }
+
+        /* PAYMENT METHODS */
+        .payment-methods {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--sand);
+        }
+
+        .payment-methods h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--forest);
+        }
+
+        .payment-option {
+            padding: 15px;
+            border: 2px solid var(--sand);
+            border-radius: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .payment-option:hover {
+            border-color: var(--sage);
+            background: var(--sand);
+        }
+
+        .payment-option.active {
+            border-color: var(--forest);
+            background: var(--sand);
+        }
+
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--forest);
+        }
+
+        .payment-icon {
+            font-size: 24px;
+        }
+
+        .payment-label {
+            flex: 1;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .payment-description {
+            font-size: 12px;
+            color: var(--sage);
+            margin-left: 32px;
+            margin-top: 5px;
+        }
+
+        /* KLARNA OPTIONS */
+        .klarna-options {
+            display: none;
+            margin-left: 32px;
+            margin-top: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .klarna-options.active {
+            display: block;
+        }
+
+        .klarna-plan {
+            padding: 10px;
+            border: 1px solid var(--sand);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .klarna-plan:hover {
+            border-color: var(--sage);
+            background: var(--sand);
+        }
+
+        .klarna-plan input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--forest);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            background: var(--sage);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px var(--shadow-hard);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secure-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--sand);
+            border-radius: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--sage);
+        }
+
+        .secure-info strong {
+            color: var(--forest);
+        }
+
+        /* PAYMENT MODAL */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .payment-modal.active {
+            display: flex;
+        }
+
+        .payment-modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: var(--sage);
+        }
+
+        .payment-modal h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: var(--forest);
+        }
+
+        #card-element {
+            padding: 15px;
+            border: 2px solid var(--sand);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+
+        /* BENEFITS */
+        .cart-benefits {
+            margin-top: 50px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
+            border-radius: 25px;
+        }
+
+        .cart-benefits h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: var(--forest);
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .benefit-text {
+            font-size: 14px;
+            color: var(--sage);
+            font-weight: 500;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--forest);
+            color: white;
+            padding: 80px 8% 40px;
+            margin-top: 100px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .footer-brand p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--moss);
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--moss);
+            text-decoration: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(115, 149, 111, 0.3);
+            color: var(--moss);
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .cart-item {
+                grid-template-columns: 100px 1fr;
+            }
+
+            .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-top: 15px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MANAYAN</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="boutique.html">Boutique</a></li>
+            <li><a href="propos.html">À propos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="lang-switch">
+                <button class="lang-btn active">FR</button>
+                <button class="lang-btn">EN</button>
+            </div>
+            <a href="panier.html" class="cart-btn">
+                🛒
+                <span class="cart-badge" id="cart-count">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <h1>Mon Panier</h1>
+        <p>Finalisez votre commande pour profiter de nos produits exceptionnels</p>
+    </header>
+
+    <!-- CART CONTAINER -->
+    <div class="cart-container">
+        <div class="cart-items" id="cart-items-container">
+            <!-- Filled by JavaScript -->
+        </div>
+
+        <div class="order-summary">
+            <h2>Récapitulatif</h2>
+            
+            <div class="summary-row">
+                <span>Sous-total</span>
+                <span id="subtotal">0.00€</span>
+            </div>
+            
+            <div class="summary-row">
+                <span>Livraison</span>
+                <span id="shipping">0.00€</span>
+            </div>
+            
+            <div class="summary-row" id="promo-row" style="display: none;">
+                <span>Code promo</span>
+                <span id="promo-discount" style="color: var(--moss);">-0.00€</span>
+            </div>
+            
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="total">0.00€</span>
+            </div>
+
+            <div class="promo-code">
+                <div class="promo-input-group">
+                    <input type="text" class="promo-input" id="promo-input" placeholder="Code promo">
+                    <button class="promo-btn" onclick="applyPromo()">Appliquer</button>
+                </div>
+            </div>
+
+            <!-- PAYMENT METHODS -->
+            <div class="payment-methods">
+                <h3>💳 Mode de paiement</h3>
+                
+                <label class="payment-option" onclick="selectPayment('card')">
+                    <input type="radio" name="payment" value="card" checked>
+                    <span class="payment-icon">💳</span>
+                    <span class="payment-label">Carte bancaire</span>
+                </label>
+
+                <label class="payment-option" onclick="selectPayment('paypal')">
+                    <input type="radio" name="payment" value="paypal">
+                    <span class="payment-icon">🅿️</span>
+                    <span class="payment-label">PayPal</span>
+                </label>
+
+                <label class="payment-option" onclick="selectPayment('applepay')">
+                    <input type="radio" name="payment" value="applepay">
+                    <span class="payment-icon">🍎</span>
+                    <span class="payment-label">Apple Pay</span>
+                </label>
+
+                <label class="payment-option" onclick="selectPayment('klarna')">
+                    <input type="radio" name="payment" value="klarna">
+                    <span class="payment-icon">🔷</span>
+                    <span class="payment-label">Klarna - Paiement en plusieurs fois</span>
+                </label>
+                <div class="klarna-options" id="klarna-options">
+                    <label class="klarna-plan">
+                        <input type="radio" name="klarna-plan" value="3" checked>
+                        <strong>3 fois sans frais</strong> - <span id="klarna-3x">0.00€</span> / mois
+                    </label>
+                    <label class="klarna-plan">
+                        <input type="radio" name="klarna-plan" value="4">
+                        <strong>4 fois sans frais</strong> - <span id="klarna-4x">0.00€</span> / mois
+                    </label>
+                    <label class="klarna-plan">
+                        <input type="radio" name="klarna-plan" value="7">
+                        <strong>7 fois</strong> - <span id="klarna-7x">0.00€</span> / mois (2% frais)
+                    </label>
+                </div>
+            </div>
+
+            <button class="checkout-btn" id="checkout-btn" onclick="processPayment()">
+                Procéder au paiement
+            </button>
+
+            <div class="secure-info">
+                🔒 <strong>Paiement 100% sécurisé</strong><br>
+                Vos données sont cryptées et protégées
+            </div>
+        </div>
+    </div>
+
+    <!-- BENEFITS -->
+    <div class="cart-benefits">
+        <h3>Pourquoi choisir MANAYAN ?</h3>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">🚚</div>
+                <p class="benefit-text">Livraison offerte<br>dès 50€ d'achat</p>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🌿</div>
+                <p class="benefit-text">Produits 100% naturels<br>et certifiés bio</p>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🔄</div>
+                <p class="benefit-text">30 jours satisfait<br>ou remboursé</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="payment-modal-content">
+            <button class="close-modal" onclick="closePaymentModal()">×</button>
+            <h2 id="modal-title">Paiement par carte</h2>
+            
+            <!-- Card Payment Form -->
+            <div id="card-payment-form" style="display: none;">
+                <div id="card-element"></div>
+                <button class="checkout-btn" onclick="submitCardPayment()">Payer <span id="payment-amount">0.00€</span></button>
+            </div>
+
+            <!-- PayPal Container -->
+            <div id="paypal-button-container" style="display: none;"></div>
+
+            <!-- Apple Pay Message -->
+            <div id="applepay-message" style="display: none; text-align: center; padding: 40px;">
+                <p style="font-size: 18px; color: var(--sage); margin-bottom: 20px;">
+                    🍎 Apple Pay sera disponible lors du paiement
+                </p>
+                <button class="checkout-btn" onclick="simulateApplePay()">Continuer avec Apple Pay</button>
+            </div>
+
+            <!-- Klarna Payment -->
+            <div id="klarna-payment" style="display: none; text-align: center; padding: 40px;">
+                <p style="font-size: 18px; color: var(--sage); margin-bottom: 20px;">
+                    🔷 Paiement en <strong id="klarna-installments">3</strong> fois avec Klarna
+                </p>
+                <p style="font-size: 16px; color: var(--forest); margin-bottom: 30px;">
+                    <strong id="klarna-monthly-payment">0.00€</strong> / mois
+                </p>
+                <button class="checkout-btn" onclick="submitKlarnaPayment()">Confirmer le paiement</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>MANAYAN</h3>
+                <p>La référence de la pousse capillaire naturelle. Des formules botaniques d'exception pour révéler la beauté de vos cheveux.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Navigation</h4>
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-column">
+                <h4>Informations</h4>
+                <a href="#">CGV</a>
+                <a href="#">Livraison</a>
+                <a href="#">Mentions légales</a>
+                <a href="#">Confidentialité</a>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <a href="mailto:contact@manayan.com">contact@manayan.com</a>
+                <a href="tel:+33123456789">+33 1 23 45 67 89</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 MANAYAN — Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        const SHIPPING_THRESHOLD = 50;
+        const SHIPPING_COST = 4.99;
+        let promoCode = null;
+        let selectedPayment = 'card';
+        let stripe, cardElement;
+
+        // Load cart
+        function loadCart() {
+            try {
+                const cartData = localStorage.getItem('cart');
+                cart = cartData ? JSON.parse(cartData) : [];
+                console.log('Cart loaded:', cart);
+                renderCart();
+                updateSummary();
+            } catch (e) {
+                console.error('Error loading cart:', e);
+                cart = [];
+                renderCart();
+            }
+        }
+
+        // Render cart items - AFFICHE CHAQUE PRODUIT SÉPARÉMENT
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Votre panier est vide</h3>
+                        <p>Découvrez nos Hair Teas botaniques</p>
+                        <a href="boutique.html" class="shop-btn">Découvrir la boutique</a>
+                    </div>
+                `;
+                document.getElementById('checkout-btn').disabled = true;
+                return;
+            }
+
+            document.getElementById('checkout-btn').disabled = false;
+
+            // CHAQUE ITEM EST AFFICHÉ SÉPARÉMENT
+            container.innerHTML = `
+                <h2>Articles (${cart.length})</h2>
+                ${cart.map((item, index) => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.nameFr}" class="item-image">
+                        
+                        <div class="item-details">
+                            <h3 class="item-name">${item.nameFr}</h3>
+                            <p class="item-category">${item.categoryFr}</p>
+                            <p class="item-price">${item.price.toFixed(2)}€</p>
+                        </div>
+
+                        <div class="item-actions">
+                            <button class="remove-btn" onclick="removeItem(${index})">🗑️ Retirer</button>
+                            <div class="item-subtotal">${item.price.toFixed(2)}€</div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Remove item - RETIRE L'ITEM SPÉCIFIQUE
+        function removeItem(index) {
+            if (confirm('Êtes-vous sûr de vouloir retirer cet article ?')) {
+                cart.splice(index, 1); // Retire 1 item à la position index
+                saveCart();
+                renderCart();
+                updateSummary();
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+            
+            let discount = 0;
+            if (promoCode) {
+                if (promoCode.type === 'percent') {
+                    discount = subtotal * (promoCode.value / 100);
+                } else {
+                    discount = promoCode.value;
+                }
+            }
+
+            const total = subtotal + shipping - discount;
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
+            
+            if (subtotal >= SHIPPING_THRESHOLD) {
+                document.getElementById('shipping').innerHTML = '<span style="color: var(--moss); font-weight: 700;">OFFERTE</span>';
+            } else {
+                document.getElementById('shipping').textContent = shipping.toFixed(2) + '€';
+            }
+
+            if (discount > 0) {
+                document.getElementById('promo-row').style.display = 'flex';
+                document.getElementById('promo-discount').textContent = '-' + discount.toFixed(2) + '€';
+            } else {
+                document.getElementById('promo-row').style.display = 'none';
+            }
+
+            document.getElementById('total').textContent = total.toFixed(2) + '€';
+            document.getElementById('payment-amount').textContent = total.toFixed(2) + '€';
+
+            // Update Klarna amounts
+            const klarna3x = (total / 3).toFixed(2);
+            const klarna4x = (total / 4).toFixed(2);
+            const klarna7x = (total * 1.02 / 7).toFixed(2); // 2% frais
+            
+            document.getElementById('klarna-3x').textContent = klarna3x + '€';
+            document.getElementById('klarna-4x').textContent = klarna4x + '€';
+            document.getElementById('klarna-7x').textContent = klarna7x + '€';
+
+            updateCartCount();
+        }
+
+        // Apply promo code
+        function applyPromo() {
+            const input = document.getElementById('promo-input');
+            const code = input.value.trim().toUpperCase();
+
+            const promoCodes = {
+                'BIENVENUE10': { type: 'percent', value: 10 },
+                'FIRST20': { type: 'percent', value: 20 },
+                'MANAYAN15': { type: 'percent', value: 15 },
+                'PROMO5': { type: 'fixed', value: 5 }
+            };
+
+            if (promoCodes[code]) {
+                promoCode = promoCodes[code];
+                alert(`✓ Code promo appliqué ! -${promoCode.type === 'percent' ? promoCode.value + '%' : promoCode.value + '€'}`);
+                input.value = '';
+                updateSummary();
+            } else {
+                alert('❌ Code promo invalide');
+            }
+        }
+
+        // Select payment method
+        function selectPayment(method) {
+            selectedPayment = method;
+            
+            // Update active state
+            document.querySelectorAll('.payment-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Show/hide Klarna options
+            if (method === 'klarna') {
+                document.getElementById('klarna-options').classList.add('active');
+            } else {
+                document.getElementById('klarna-options').classList.remove('active');
+            }
+        }
+
+        // Process payment
+        function processPayment() {
+            if (cart.length === 0) return;
+
+            const modal = document.getElementById('payment-modal');
+            modal.classList.add('active');
+
+            // Hide all payment forms
+            document.getElementById('card-payment-form').style.display = 'none';
+            document.getElementById('paypal-button-container').style.display = 'none';
+            document.getElementById('applepay-message').style.display = 'none';
+            document.getElementById('klarna-payment').style.display = 'none';
+
+            switch(selectedPayment) {
+                case 'card':
+                    document.getElementById('modal-title').textContent = 'Paiement par carte';
+                    document.getElementById('card-payment-form').style.display = 'block';
+                    initStripe();
+                    break;
+                case 'paypal':
+                    document.getElementById('modal-title').textContent = 'Paiement PayPal';
+                    document.getElementById('paypal-button-container').style.display = 'block';
+                    initPayPal();
+                    break;
+                case 'applepay':
+                    document.getElementById('modal-title').textContent = 'Apple Pay';
+                    document.getElementById('applepay-message').style.display = 'block';
+                    break;
+                case 'klarna':
+                    const installments = document.querySelector('input[name="klarna-plan"]:checked').value;
+                    const total = parseFloat(document.getElementById('total').textContent.replace('€', ''));
+                    let monthlyPayment;
+                    
+                    if (installments == '7') {
+                        monthlyPayment = (total * 1.02 / 7).toFixed(2);
+                    } else {
+                        monthlyPayment = (total / installments).toFixed(2);
+                    }
+                    
+                    document.getElementById('modal-title').textContent = 'Paiement Klarna';
+                    document.getElementById('klarna-installments').textContent = installments;
+                    document.getElementById('klarna-monthly-payment').textContent = monthlyPayment + '€';
+                    document.getElementById('klarna-payment').style.display = 'block';
+                    break;
+            }
+        }
+
+        // Initialize Stripe
+        function initStripe() {
+            // NOTE: Replace 'YOUR_STRIPE_KEY' with your actual Stripe publishable key
+            // stripe = Stripe('YOUR_STRIPE_KEY');
+            // const elements = stripe.elements();
+            // cardElement = elements.create('card');
+            // cardElement.mount('#card-element');
+            
+            // For demo purposes, we'll simulate
+            console.log('Stripe would be initialized here');
+        }
+
+        // Submit card payment
+        function submitCardPayment() {
+            // In production, you would use:
+            // stripe.createToken(cardElement).then(result => { ... });
+            
+            // Simulation
+            const total = document.getElementById('total').textContent;
+            alert(`✅ Paiement de ${total} effectué avec succès !\n\nVotre commande a été confirmée.\nVous recevrez un email de confirmation.`);
+            
+            // Clear cart and redirect
+            clearCartAndRedirect();
+        }
+
+        // Initialize PayPal
+        function initPayPal() {
+            const total = parseFloat(document.getElementById('total').textContent.replace('€', ''));
+            
+            // NOTE: Replace 'YOUR_PAYPAL_CLIENT_ID' in the script tag with your actual PayPal client ID
+            // PayPal buttons would be rendered here
+            
+            // For demo:
+            setTimeout(() => {
+                if (confirm('Simuler le paiement PayPal de ' + total.toFixed(2) + '€ ?')) {
+                    alert('✅ Paiement PayPal effectué avec succès !');
+                    clearCartAndRedirect();
+                }
+            }, 1000);
+        }
+
+        // Simulate Apple Pay
+        function simulateApplePay() {
+            const total = document.getElementById('total').textContent;
+            alert(`✅ Paiement Apple Pay de ${total} effectué avec succès !\n\nVotre commande a été confirmée.`);
+            clearCartAndRedirect();
+        }
+
+        // Submit Klarna payment
+        function submitKlarnaPayment() {
+            const installments = document.getElementById('klarna-installments').textContent;
+            const monthlyPayment = document.getElementById('klarna-monthly-payment').textContent;
+            alert(`✅ Paiement Klarna confirmé !\n\nVous payerez ${monthlyPayment} par mois pendant ${installments} mois.\n\nVotre commande a été validée.`);
+            clearCartAndRedirect();
+        }
+
+        // Close payment modal
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+
+        // Clear cart and redirect
+        function clearCartAndRedirect() {
+            cart = [];
+            saveCart();
+            closePaymentModal();
+            
+            setTimeout(() => {
+                window.location.href = 'index.html?order=success';
+            }, 1000);
+        }
+
+        // Save cart
+        function saveCart() {
+            try {
+                localStorage.setItem('cart', JSON.stringify(cart));
+            } catch (e) {
+                console.error('Error saving cart:', e);
+            }
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const count = cart.length;
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        // Initialize
+        loadCart();
+    </script>
+
+</body>
+</html>

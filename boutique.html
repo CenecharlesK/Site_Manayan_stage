@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Boutique MANAYAN | Hair Tea & Infusions Botaniques</title>
+    <meta name="description" content="Achetez vos Hair Tea MANAYAN. Livraison gratuite dès 50€. Formules botaniques certifiées.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --sage: #556b2f;
+            --moss: #73956f;
+            --cream: #fef9f3;
+            --sand: #f4ede4;
+            --gold: #c9a961;
+            --terracotta: #d4a574;
+            --shadow-soft: rgba(26,58,46,0.08);
+            --shadow-hard: rgba(26,58,46,0.25);
+            --nav-h: 70px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--forest);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { max-width:100%; display:block; }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: var(--nav-h);
+            background: rgba(254,249,243,0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(26,58,46,0.1);
+            box-shadow: 0 2px 16px var(--shadow-soft);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--forest);
+        }
+        .nav-links { display:flex; gap:40px; list-style:none; }
+        .nav-links a {
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content:'';
+            position:absolute;
+            bottom:-4px; left:0;
+            width:0; height:2px;
+            background:var(--sage);
+            transition: width 0.35s;
+        }
+        .nav-links a:hover, .nav-links a.active { color:var(--sage); }
+        .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+
+        .nav-right { display:flex; align-items:center; gap:18px; }
+        .lang-switch { display:flex; background:var(--sand); padding:5px 10px; border-radius:20px; gap:4px; }
+        .lang-btn {
+            background:transparent; border:none;
+            color:var(--sage); font-weight:600; font-size:11px; letter-spacing:1px;
+            padding:5px 10px; border-radius:15px;
+            transition:all 0.3s;
+            min-width:44px; min-height:32px;
+        }
+        .lang-btn.active { background:var(--sage); color:white; }
+
+        .cart-btn {
+            position:relative; font-size:22px;
+            min-width:44px; min-height:44px;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .cart-badge {
+            position:absolute; top:2px; right:2px;
+            background:var(--terracotta); color:white;
+            min-width:18px; height:18px; border-radius:9px;
+            font-size:10px; font-weight:700;
+            display:flex; align-items:center; justify-content:center; padding:0 4px;
+        }
+
+        .hamburger {
+            display:none; flex-direction:column;
+            justify-content:center; align-items:center;
+            width:44px; height:44px;
+            background:transparent; border:none; gap:5px; padding:8px;
+        }
+        .hamburger span {
+            display:block; width:22px; height:2px;
+            background:var(--forest); border-radius:2px;
+            transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+            transform-origin:center;
+        }
+        .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+        .drawer-overlay {
+            position:fixed; inset:0;
+            background:rgba(26,58,46,0.55);
+            z-index:1998; opacity:0; pointer-events:none;
+            transition:opacity 0.35s;
+        }
+        .drawer-overlay.open { opacity:1; pointer-events:all; }
+
+        .drawer {
+            position:fixed; top:0; left:0;
+            width:min(80vw,300px); height:100%;
+            background:white; z-index:1999;
+            transform:translateX(-100%);
+            transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);
+            display:flex; flex-direction:column; overflow-y:auto;
+            padding-bottom:var(--safe-bottom);
+        }
+        .drawer.open { transform:translateX(0); }
+        .drawer-header {
+            padding:20px 24px; border-bottom:1px solid var(--sand);
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .drawer-logo { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; letter-spacing:4px; color:var(--forest); }
+        .drawer-close {
+            background:transparent; border:none; font-size:28px; color:var(--forest);
+            min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; opacity:0.7;
+        }
+        .drawer-nav { padding:16px 0; flex:1; }
+        .drawer-nav a {
+            display:flex; align-items:center; padding:16px 24px;
+            font-size:16px; font-weight:500; letter-spacing:1px; color:var(--forest);
+            border-bottom:1px solid var(--sand); transition:background 0.2s, color 0.2s; min-height:56px;
+        }
+        .drawer-nav a:hover { background:var(--sand); color:var(--sage); }
+        .drawer-nav a:last-child { border-bottom:none; }
+        .drawer-footer { padding:24px; border-top:1px solid var(--sand); }
+        .drawer-lang { display:flex; gap:10px; }
+        .drawer-lang button {
+            flex:1; padding:12px; border:2px solid var(--sand);
+            background:transparent; border-radius:12px; font-size:13px; font-weight:600;
+            color:var(--sage); letter-spacing:1px; transition:all 0.3s;
+        }
+        .drawer-lang button.active { background:var(--sage); border-color:var(--sage); color:white; }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-top: var(--nav-h);
+            background: linear-gradient(135deg, var(--sand), var(--cream));
+            padding: clamp(50px, 8vw, 90px) 5% clamp(40px, 6vw, 70px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content:'';
+            position:absolute; top:-40%; right:-8%;
+            width:400px; height:400px;
+            background:radial-gradient(circle, rgba(201,169,97,0.12), transparent);
+            border-radius:50%;
+            pointer-events:none;
+        }
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 5vw, 58px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--forest);
+            position: relative;
+            z-index: 2;
+        }
+        .page-header p {
+            font-size: clamp(14px, 1.6vw, 18px);
+            color: var(--sage);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* SHOP CONTROLS */
+        .shop-controls {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: clamp(28px, 4vw, 50px) 5% clamp(20px, 3vw, 36px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .shop-info { font-size:15px; color:var(--sage); font-weight:500; }
+        .shop-info strong { color:var(--forest); font-size:18px; }
+
+        .filters-wrap { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+
+        .filter-group { display:flex; flex-direction:column; gap:6px; }
+        .filter-label { font-size:11px; font-weight:700; color:var(--forest); text-transform:uppercase; letter-spacing:1.5px; }
+        .filter-select {
+            padding:12px 18px;
+            background:white; border:2px solid var(--sand);
+            border-radius:28px; font-size:14px; color:var(--forest);
+            font-weight:500; transition:all 0.3s; outline:none;
+            min-height:48px; cursor:pointer;
+            font-family:inherit;
+        }
+        .filter-select:hover, .filter-select:focus { border-color:var(--sage); box-shadow:0 4px 14px var(--shadow-soft); }
+
+        .view-toggle {
+            display:flex; gap:6px;
+            background:white; padding:5px;
+            border-radius:28px; border:2px solid var(--sand);
+        }
+        .view-btn {
+            background:transparent; border:none;
+            padding:10px 16px; cursor:pointer;
+            border-radius:22px; font-size:16px;
+            transition:all 0.3s; min-width:44px; min-height:44px;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .view-btn.active { background:var(--sage); color:white; }
+
+        /* SHOP CONTAINER */
+        .shop-wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5% calc(80px + var(--safe-bottom));
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        .products-grid.list-view { grid-template-columns: 1fr; }
+
+        .prod-card {
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.35s, box-shadow 0.35s;
+            box-shadow: 0 6px 22px var(--shadow-soft);
+            cursor: pointer;
+        }
+        .prod-card:hover { transform:translateY(-8px); box-shadow:0 20px 46px var(--shadow-hard); }
+
+        .prod-badge {
+            position:absolute; top:16px; right:16px;
+            padding:7px 16px; border-radius:22px;
+            font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+            z-index:10; box-shadow:0 4px 12px rgba(0,0,0,0.18);
+        }
+        .badge-new  { background:var(--gold); color:white; }
+        .badge-promo { background:var(--terracotta); color:white; }
+        .badge-out  { background:#999; color:white; }
+
+        .prod-img-wrap {
+            position:relative; width:100%; height:320px;
+            overflow:hidden; background:var(--sand);
+        }
+        .prod-img {
+            width:100%; height:100%; object-fit:cover;
+            transition:transform 0.55s;
+        }
+        .prod-card:hover .prod-img { transform:scale(1.12); }
+
+        .quick-view {
+            position:absolute; bottom:16px; left:50%;
+            transform:translateX(-50%) translateY(70px);
+            opacity:0;
+            background:var(--forest); color:white;
+            padding:10px 26px; border-radius:28px;
+            font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+            transition:all 0.38s; cursor:pointer; border:none; white-space:nowrap;
+        }
+        .prod-card:hover .quick-view { transform:translateX(-50%) translateY(0); opacity:1; }
+
+        .prod-info { padding:24px 22px; }
+        .prod-category { font-size:10px; color:var(--sage); text-transform:uppercase; letter-spacing:2px; font-weight:600; margin-bottom:8px; }
+        .prod-name { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; margin-bottom:10px; color:var(--forest); }
+        .prod-desc { font-size:13px; line-height:1.6; color:var(--sage); margin-bottom:16px; }
+        .prod-price { display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+        .price-current { font-size:28px; font-weight:700; color:var(--forest); }
+        .price-old { font-size:18px; text-decoration:line-through; color:#aaa; }
+        .price-discount { background:var(--terracotta); color:white; padding:4px 10px; border-radius:18px; font-size:11px; font-weight:700; }
+
+        .prod-actions { display:flex; gap:10px; align-items:center; }
+        .qty-wrap {
+            display:flex; align-items:center; gap:8px;
+            background:var(--sand); padding:8px 12px; border-radius:28px;
+        }
+        .qty-btn {
+            width:36px; height:36px; border:none;
+            background:white; color:var(--forest);
+            font-size:18px; font-weight:700; border-radius:50%;
+            transition:all 0.3s;
+            display:flex; align-items:center; justify-content:center;
+            min-width:36px;
+        }
+        .qty-btn:hover { background:var(--sage); color:white; }
+        .qty-val {
+            width:36px; text-align:center;
+            border:none; background:transparent;
+            font-size:16px; font-weight:700; color:var(--forest);
+        }
+        .add-btn {
+            flex:1;
+            padding:12px 20px;
+            background:var(--forest); color:white;
+            border:none; border-radius:28px;
+            font-size:12px; font-weight:700; letter-spacing:1.5px;
+            text-transform:uppercase; transition:all 0.3s;
+            min-height:48px; cursor:pointer;
+        }
+        .add-btn:hover:not(:disabled) { background:var(--sage); transform:translateY(-2px); }
+        .add-btn:disabled { background:#ccc; cursor:not-allowed; }
+
+        /* LIST VIEW */
+        .products-grid.list-view .prod-card { display:grid; grid-template-columns:260px 1fr; }
+        .products-grid.list-view .prod-img-wrap { height:100%; min-height:220px; }
+        .products-grid.list-view .prod-info { padding:28px 28px; display:flex; flex-direction:column; justify-content:center; }
+
+        /* PAGINATION */
+        .pagination {
+            display:flex; justify-content:center; align-items:center;
+            gap:10px; margin-top:50px; flex-wrap:wrap;
+            padding-bottom: var(--safe-bottom);
+        }
+        .page-btn {
+            min-width:50px; min-height:50px;
+            border:2px solid var(--sand); background:white;
+            color:var(--forest); border-radius:50%;
+            font-weight:600; font-size:15px;
+            cursor:pointer; transition:all 0.3s;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .page-btn:hover { border-color:var(--sage); background:var(--sage); color:white; }
+        .page-btn.active { background:var(--forest); border-color:var(--forest); color:white; }
+        .page-btn:disabled { opacity:0.3; cursor:not-allowed; }
+        .page-dots { color:var(--sage); font-size:20px; line-height:1; display:flex; align-items:center; }
+
+        /* EMPTY */
+        .empty-state { text-align:center; padding:80px 20px; grid-column:1/-1; }
+        .empty-state h3 { font-family:'Playfair Display',serif; font-size:28px; margin-bottom:14px; color:var(--forest); }
+        .empty-state p { font-size:15px; color:var(--sage); }
+
+        /* FOOTER */
+        footer {
+            background:var(--forest); color:white;
+            padding:clamp(50px,7vw,80px) 5% calc(30px + var(--safe-bottom));
+        }
+        .footer-grid {
+            display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+            gap:50px; max-width:1400px; margin:0 auto 50px;
+        }
+        .footer-brand-name { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; letter-spacing:4px; margin-bottom:16px; }
+        .footer-brand p { font-size:14px; line-height:1.8; color:var(--moss); }
+        .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:18px; color:white; }
+        .footer-col a { display:block; color:var(--moss); font-size:14px; margin-bottom:10px; transition:color 0.3s; }
+        .footer-col a:hover { color:white; }
+        .footer-bottom { text-align:center; padding-top:36px; border-top:1px solid rgba(115,149,111,0.3); color:var(--moss); font-size:12px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .nav-links { display:none; }
+            .hamburger { display:flex; }
+            .footer-grid { grid-template-columns:1fr 1fr; gap:36px; }
+        }
+
+        @media (max-width: 768px) {
+            :root { --nav-h: 62px; }
+            .navbar { padding:0 4%; }
+            .logo { font-size:22px; letter-spacing:4px; }
+            .lang-switch { display:none; }
+
+            .page-header { padding:44px 4% 36px; }
+            .page-header h1 { font-size:clamp(22px, 7vw, 30px); }
+            .page-header p { font-size:14px; }
+
+            .shop-controls { padding:24px 4% 16px; flex-direction:column; align-items:stretch; gap:16px; }
+            .shop-info { font-size:14px; }
+            .shop-info strong { font-size:16px; }
+
+            .filters-wrap { flex-direction:column; align-items:stretch; gap:12px; }
+            .filter-group { flex-direction:row; align-items:center; gap:10px; }
+            .filter-label { min-width:72px; font-size:10px; }
+            .filter-select { flex:1; width:100%; padding:10px 14px; font-size:13px; min-height:48px; }
+
+            .view-toggle { align-self:flex-end; }
+
+            .shop-wrap { padding:0 4% calc(60px + var(--safe-bottom)); }
+
+            .products-grid { grid-template-columns:1fr; gap:18px; }
+            .products-grid.list-view .prod-card { grid-template-columns:1fr; }
+            .products-grid.list-view .prod-img-wrap { height:220px; min-height:unset; }
+
+            .prod-img-wrap { height:240px; }
+            .prod-info { padding:20px 18px; }
+            .prod-name { font-size:20px; }
+            .prod-desc { font-size:13px; }
+            .price-current { font-size:26px; }
+            .price-old { font-size:16px; }
+
+            .prod-actions { flex-direction:column; gap:10px; align-items:stretch; }
+            .qty-wrap { justify-content:center; }
+            .add-btn { width:100%; min-height:50px; font-size:12px; }
+
+            .pagination { gap:8px; margin-top:36px; }
+            .page-btn { min-width:48px; min-height:48px; font-size:14px; }
+
+            footer { padding:50px 4% calc(24px + var(--safe-bottom)); }
+            .footer-grid { grid-template-columns:1fr 1fr; gap:28px; }
+            .footer-brand-name { font-size:24px; }
+        }
+
+        @media (max-width: 390px) {
+            .logo { font-size:19px; letter-spacing:3px; }
+            .page-header h1 { font-size:clamp(20px,7.5vw,26px); }
+            .prod-img-wrap { height:220px; }
+            .filter-group { flex-direction:column; align-items:stretch; }
+            .filter-label { min-width:unset; }
+            .footer-grid { grid-template-columns:1fr; gap:24px; }
+        }
+
+        @media (min-width: 430px) and (max-width: 768px) {
+            .products-grid { grid-template-columns:repeat(2, 1fr); gap:16px; }
+            .prod-img-wrap { height:200px; }
+            .prod-info { padding:18px 14px; }
+            .prod-name { font-size:17px; }
+            .prod-actions { flex-direction:column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+    <div class="drawer-header">
+        <span class="drawer-logo">MANAYAN</span>
+        <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+    <nav class="drawer-nav">
+        <a href="index.html">🏠 Accueil</a>
+        <a href="boutique.html">🛍️ Boutique</a>
+        <a href="propos.html">🌿 À propos</a>
+        <a href="contact.html">✉️ Contact</a>
+    </nav>
+    <div class="drawer-footer">
+        <div class="drawer-lang">
+            <button onclick="changeLang('fr')" id="dlang-fr" class="active">FR</button>
+            <button onclick="changeLang('en')" id="dlang-en">EN</button>
+        </div>
+    </div>
+</aside>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <button class="hamburger" id="hamburger" onclick="openDrawer()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="logo">MANAYAN</a>
+    <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="boutique.html" class="active">Boutique</a></li>
+        <li><a href="propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="changeLang('fr')" data-lang="fr">FR</button>
+            <button class="lang-btn" onclick="changeLang('en')" data-lang="en">EN</button>
+        </div>
+        <a href="panier.html" class="cart-btn" aria-label="Panier">
+            🛒<span class="cart-badge" id="cartCount">0</span>
+        </a>
+    </div>
+</header>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+    <h1 data-fr="Boutique Hair Tea & Infusions Botaniques" data-en="Hair Tea & Botanical Infusions Shop">Boutique Hair Tea & Infusions Botaniques</h1>
+    <p data-fr="Découvrez notre collection d'infusions capillaires naturelles. Livraison gratuite dès 50€. Formules certifiées." data-en="Discover our natural hair infusions collection. Free delivery from €50. Certified formulas.">
+        Découvrez notre collection d'infusions capillaires naturelles. Livraison gratuite dès 50€. Formules certifiées.
+    </p>
+</header>
+
+<!-- SHOP CONTROLS -->
+<div class="shop-controls">
+    <div class="shop-info">
+        <strong id="productCount">0</strong>
+        <span data-fr=" produits disponibles" data-en=" products available"> produits disponibles</span>
+    </div>
+    <div class="filters-wrap">
+        <div class="filter-group">
+            <label class="filter-label" data-fr="Trier" data-en="Sort">Trier</label>
+            <select class="filter-select" id="sortSelect" onchange="applySorting()">
+                <option value="default" data-fr="Par défaut" data-en="Default">Par défaut</option>
+                <option value="name-asc" data-fr="Nom A–Z" data-en="Name A–Z">Nom A–Z</option>
+                <option value="name-desc" data-fr="Nom Z–A" data-en="Name Z–A">Nom Z–A</option>
+                <option value="price-asc" data-fr="Prix croissant" data-en="Price ↑">Prix croissant</option>
+                <option value="price-desc" data-fr="Prix décroissant" data-en="Price ↓">Prix décroissant</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label class="filter-label" data-fr="Filtrer" data-en="Filter">Filtrer</label>
+            <select class="filter-select" id="filterSelect" onchange="applyFilter()">
+                <option value="all" data-fr="Tous" data-en="All">Tous</option>
+                <option value="instock" data-fr="En stock" data-en="In stock">En stock</option>
+                <option value="new" data-fr="Nouveautés" data-en="New">Nouveautés</option>
+                <option value="promo" data-fr="Promotions" data-en="On sale">Promotions</option>
+            </select>
+        </div>
+        <div class="view-toggle">
+            <button class="view-btn active" onclick="setView('grid',this)" title="Grille">⊞</button>
+            <button class="view-btn" onclick="setView('list',this)" title="Liste">☰</button>
+        </div>
+    </div>
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="shop-wrap">
+    <div class="products-grid" id="productsGrid">
+        <div class="empty-state"><p>Chargement…</p></div>
+    </div>
+    <div class="pagination" id="pagination" style="display:none">
+        <button class="page-btn" id="prevBtn" onclick="prevPage()">‹</button>
+        <div id="pageNums"></div>
+        <button class="page-btn" id="nextBtn" onclick="nextPage()">›</button>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <div class="footer-brand-name">MANAYAN</div>
+            <p>La référence de la pousse capillaire naturelle. Des formules botaniques d'exception.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Navigation</h4>
+            <a href="index.html">Accueil</a>
+            <a href="boutique.html">Boutique</a>
+            <a href="propos.html">À propos</a>
+        </div>
+        <div class="footer-col">
+            <h4>Infos</h4>
+            <a href="cgv.html">CGV</a>
+            <a href="cgv.html#livraison">Livraison</a>
+            <a href="mentions-legales.html">Mentions légales</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:contact@manayan.fr">contact@manayan.fr</a>
+            <a href="tel:+33142857396">+33 1 42 85 73 96</a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2026 MANAYAN — Tous droits réservés</div>
+</footer>
+
+<script>
+/* ===== DRAWER ===== */
+function openDrawer()  { document.getElementById('drawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('open'); document.getElementById('hamburger').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawer() { document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerOverlay').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); document.body.style.overflow=''; }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+
+/* ===== CONFIG ===== */
+const PER_PAGE = 12;
+let page = 1, lang = 'fr', view = 'grid', all = [], filtered = [];
+const IMG = 'https://scout-buzz-15590094.figma.site/_assets/v11/5056090f50b02fc7e8813d2586075e5b5b2eee5a.png';
+
+const NAMES = [
+    {fr:'Hibiscus Éclat',en:'Hibiscus Glow'},{fr:'Romarin Force',en:'Rosemary Strength'},
+    {fr:'Menthe Réveil',en:'Peppermint Revival'},{fr:'Lavande Sérénité',en:'Lavender Serenity'},
+    {fr:'Thé Vert Vitalité',en:'Green Tea Vitality'},{fr:'Camomille Calme',en:'Chamomile Calm'},
+    {fr:'Ortie Puissance',en:'Nettle Power'},{fr:'Sauge Sagesse',en:'Sage Wisdom'},
+    {fr:'Thym Thérapie',en:'Thyme Therapy'},{fr:'Gingembre Boost',en:'Ginger Boost'},
+    {fr:'Prêle Fortifiant',en:'Horsetail Fortify'},{fr:'Bardane Équilibre',en:'Burdock Balance'},
+    {fr:'Calendula Éclat',en:'Calendula Glow'},{fr:'Citronnelle Fresh',en:'Lemongrass Fresh'},
+    {fr:'Jasmin Rêve',en:'Jasmine Dream'},{fr:'Rose Élégance',en:'Rose Elegance'},
+    {fr:'Clou Chaleur',en:'Clove Warmth'},{fr:'Cannelle Épice',en:'Cinnamon Spice'},
+    {fr:'Curcuma Or',en:'Turmeric Gold'},{fr:'Réglisse Racine',en:'Licorice Root'}
+];
+const CATS = [{fr:'Hair Tea',en:'Hair Tea'},{fr:'Complément',en:'Supplement'},{fr:'Rituel',en:'Ritual'}];
+const DESCS = {
+    fr:['Soin capillaire naturel enrichi en plantes actives pour hydrater, renforcer et sublimer la chevelure.',
+        'Infusion botanique concentrée pour stimuler la pousse des cheveux de manière naturelle et durable.',
+        'Formule unique aux extraits végétaux pour nourrir le cuir chevelu et révéler la beauté des cheveux.',
+        'Rituel capillaire complet aux propriétés fortifiantes pour des cheveux visiblement plus sains.'],
+    en:['Natural hair care enriched with active plants to hydrate, strengthen and enhance hair.',
+        'Concentrated botanical infusion to naturally stimulate hair growth.',
+        'Unique formula with plant extracts to nourish the scalp and reveal hair beauty.',
+        'Complete hair ritual with fortifying properties for visibly healthier hair.']
+};
+
+function initProducts() {
+    const saved = localStorage.getItem('mny_products');
+    if (saved) { all = JSON.parse(saved); }
+    else {
+        for (let i=1; i<=50; i++) {
+            const ni=(i-1)%NAMES.length, n=NAMES[ni];
+            const v=i>NAMES.length?` ${Math.floor((i-1)/NAMES.length)+1}`:'';
+            const ci=i%CATS.length, di=i%DESCS.fr.length;
+            const isPromo=i<=5, isNew=i===1, inStock=Math.random()>0.15;
+            const base=19.95+Math.random()*30;
+            all.push({id:i,nameFr:n.fr+v,nameEn:n.en+v,catFr:CATS[ci].fr,catEn:CATS[ci].en,
+                price:isPromo?base*0.67:base,oldPrice:isPromo?base:null,image:IMG,
+                descFr:DESCS.fr[di],descEn:DESCS.en[di],inStock,isNew,isPromo});
+        }
+        localStorage.setItem('mny_products', JSON.stringify(all));
+    }
+    filtered = [...all];
+}
+
+function changeLang(l) {
+    lang = l;
+    document.querySelectorAll('[data-fr]').forEach(el=>el.textContent=el.getAttribute('data-'+l));
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-lang')===l));
+    ['dlang-fr','dlang-en'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',id.endsWith(l));});
+    localStorage.setItem('mny_lang',l);
+    render();
+}
+
+function setView(v, btn) {
+    view=v;
+    document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('productsGrid').classList.toggle('list-view', v==='list');
+}
+
+function applyFilter() {
+    const f=document.getElementById('filterSelect').value;
+    if(f==='all') filtered=[...all];
+    else if(f==='instock') filtered=all.filter(p=>p.inStock);
+    else if(f==='new') filtered=all.filter(p=>p.isNew);
+    else if(f==='promo') filtered=all.filter(p=>p.isPromo);
+    page=1; render();
+}
+
+function applySorting() {
+    const s=document.getElementById('sortSelect').value;
+    const nn=p=>lang==='fr'?p.nameFr:p.nameEn;
+    if(s==='name-asc') filtered.sort((a,b)=>nn(a).localeCompare(nn(b)));
+    else if(s==='name-desc') filtered.sort((a,b)=>nn(b).localeCompare(nn(a)));
+    else if(s==='price-asc') filtered.sort((a,b)=>a.price-b.price);
+    else if(s==='price-desc') filtered.sort((a,b)=>b.price-a.price);
+    else filtered.sort((a,b)=>a.id-b.id);
+    render();
+}
+
+function changeQty(id,d) {
+    const el=document.getElementById('qty-'+id);
+    el.value=Math.min(10,Math.max(1,parseInt(el.value)+d));
+}
+
+function addToCart(id,e) {
+    e.stopPropagation();
+    const p=all.find(x=>x.id===id);
+    if(!p||!p.inStock) return;
+    const qty=parseInt(document.getElementById('qty-'+id).value);
+    let cart=JSON.parse(localStorage.getItem('cart')||'[]');
+    for(let i=0;i<qty;i++) cart.push({...p,cartItemId:Date.now()+Math.random(),quantity:1});
+    localStorage.setItem('cart',JSON.stringify(cart));
+    updateCart();
+    const btn=e.currentTarget;
+    const orig=btn.textContent;
+    btn.textContent=lang==='fr'?'✓ Ajouté !':'✓ Added!';
+    btn.style.background='var(--moss)';
+    setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000);
+}
+
+function prevPage() { if(page>1){page--;render();window.scrollTo({top:0,behavior:'smooth'});} }
+function nextPage() { const t=Math.ceil(filtered.length/PER_PAGE); if(page<t){page++;render();window.scrollTo({top:0,behavior:'smooth'});} }
+function goPage(p)  { page=p; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function render() {
+    const grid=document.getElementById('productsGrid');
+    const total=Math.ceil(filtered.length/PER_PAGE);
+    const start=(page-1)*PER_PAGE;
+    const items=filtered.slice(start,start+PER_PAGE);
+    document.getElementById('productCount').textContent=filtered.length;
+
+    const addTxt=lang==='fr'?'Ajouter au panier':'Add to cart';
+    const outTxt=lang==='fr'?'Rupture de stock':'Out of stock';
+    const viewTxt=lang==='fr'?'Voir les détails':'View details';
+    const newTxt=lang==='fr'?'Nouveau':'New';
+    const promoTxt=lang==='fr'?'Promo':'Sale';
+
+    if(!items.length) {
+        grid.innerHTML=`<div class="empty-state"><h3>${lang==='fr'?'Aucun résultat':'No results'}</h3><p>${lang==='fr'?'Modifiez vos filtres.':'Adjust your filters.'}</p></div>`;
+        document.getElementById('pagination').style.display='none';
+        return;
+    }
+
+    grid.innerHTML=items.map(p=>{
+        const name=lang==='fr'?p.nameFr:p.nameEn;
+        const cat=lang==='fr'?p.catFr:p.catEn;
+        const desc=lang==='fr'?p.descFr:p.descEn;
+        const disc=p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;
+        let badge='';
+        if(p.isNew) badge=`<div class="prod-badge badge-new">${newTxt}</div>`;
+        else if(p.isPromo) badge=`<div class="prod-badge badge-promo">${promoTxt}</div>`;
+        else if(!p.inStock) badge=`<div class="prod-badge badge-out">${outTxt}</div>`;
+
+        return `
+        <article class="prod-card" onclick="window.location.href='produit.html?id=${p.id}'" tabindex="0">
+            ${badge}
+            <div class="prod-img-wrap">
+                <img src="${p.image}" alt="${name} — MANAYAN Hair Tea" class="prod-img" loading="lazy">
+                <button class="quick-view" onclick="event.stopPropagation();window.location.href='produit.html?id=${p.id}'">${viewTxt}</button>
+            </div>
+            <div class="prod-info">
+                <div class="prod-category">${cat}</div>
+                <h3 class="prod-name">${name}</h3>
+                <p class="prod-desc">${desc}</p>
+                <div class="prod-price">
+                    <span class="price-current">${p.price.toFixed(2)}€</span>
+                    ${p.oldPrice?`<span class="price-old">${p.oldPrice.toFixed(2)}€</span><span class="price-discount">-${disc}%</span>`:''}
+                </div>
+                <div class="prod-actions" onclick="event.stopPropagation()">
+                    <div class="qty-wrap">
+                        <button class="qty-btn" onclick="changeQty(${p.id},-1)" aria-label="Moins">−</button>
+                        <input type="number" class="qty-val" id="qty-${p.id}" value="1" min="1" max="10" readonly aria-label="Quantité">
+                        <button class="qty-btn" onclick="changeQty(${p.id},1)" aria-label="Plus">+</button>
+                    </div>
+                    <button class="add-btn" ${!p.inStock?'disabled':''} onclick="addToCart(${p.id},event)">
+                        ${p.inStock?addTxt:outTxt}
+                    </button>
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+
+    // Pagination
+    const pag=document.getElementById('pagination');
+    if(total>1) {
+        pag.style.display='flex';
+        document.getElementById('prevBtn').disabled=page===1;
+        document.getElementById('nextBtn').disabled=page===total;
+        let html='';
+        for(let i=1;i<=total;i++) {
+            if(i===1||i===total||(i>=page-1&&i<=page+1)) html+=`<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
+            else if(i===page-2||i===page+2) html+=`<span class="page-dots">…</span>`;
+        }
+        document.getElementById('pageNums').innerHTML=html;
+    } else { pag.style.display='none'; }
+}
+
+function updateCart() {
+    const c=JSON.parse(localStorage.getItem('cart')||'[]');
+    document.getElementById('cartCount').textContent=c.length;
+}
+
+/* INIT */
+initProducts();
+updateCart();
+window.addEventListener('DOMContentLoaded',()=>{
+    const l=localStorage.getItem('mny_lang')||'fr';
+    lang=l;
+    document.querySelectorAll('[data-fr]').forEach(el=>el.textContent=el.getAttribute('data-'+l));
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-lang')===l));
+    setTimeout(render,100);
+});
+setInterval(updateCart,1500);
+</script>
+</body>
+</html>
